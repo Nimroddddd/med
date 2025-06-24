@@ -13,6 +13,15 @@ import './App.css'
 import OwnerPortalApp from './components/portal/OwnerPortalApp'
 import ProvidersSection from './components/sections/ProvidersSection'
 import ProviderDetail from './components/sections/ProviderDetail'
+import TherapyMethods from './components/sections/resources/TherapyMethods'
+import FAQs from './components/sections/resources/FAQs'
+import Forms from './components/sections/resources/Forms'
+import Insurance from './components/sections/resources/Insurance'
+import Testimonials from './components/sections/resources/Testimonials'
+import PayOnline from './components/sections/resources/PayOnline'
+import News from './components/sections/resources/News'
+import GuidesTips from './components/sections/resources/GuidesTips'
+import Blog from './components/sections/resources/Blog'
 
 function AppContent() {
   const location = useLocation();
@@ -32,6 +41,15 @@ function AppContent() {
             <Route path="/owner-portal" element={<OwnerPortalApp />} />
             <Route path="/providers" element={<ProvidersSection />} />
             <Route path="/providers/:id" element={<ProviderDetail />} />
+            <Route path="/therapy-methods" element={<TherapyMethods />} />
+            <Route path="/faqs" element={<FAQs />} />
+            <Route path="/forms" element={<Forms />} />
+            <Route path="/insurance" element={<Insurance />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route path="/pay-online" element={<PayOnline />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/guides-tips" element={<GuidesTips />} />
+            <Route path="/blog" element={<Blog />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

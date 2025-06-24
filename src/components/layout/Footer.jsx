@@ -25,7 +25,7 @@ const Footer = () => {
               Healthwise Psychiatry and Wellness LLC<br/>
               Providing compassionate, comprehensive psychiatric and wellness care for our community.
             </p>
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               <motion.a
                 href="#"
                 whileHover={{ scale: 1.1 }}
@@ -47,7 +47,7 @@ const Footer = () => {
               >
                 <Instagram className="w-5 h-5" />
               </motion.a>
-            </div>
+            </div> */}
           </motion.div>
 
           {/* Contact Info */}
@@ -60,11 +60,11 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-gray-300" />
-                <span className="text-gray-200">(555) 123-4567</span>
+                <span className="text-gray-200">+1 (708) 953-5459</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-gray-300" />
-                <span className="text-gray-200">dr.johnson@email.com</span>
+                <span className="text-gray-200">info@healthwisepsychiatry.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-gray-300" />
@@ -109,7 +109,6 @@ const Footer = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="border-t border-white/20 mt-8 pt-8 text-center text-gray-300"
         >
-          <p>&copy; {currentYear} Dr. Sarah Johnson Family Medicine. All rights reserved.</p>
           <p>&copy; {currentYear} Healthwise Psychiatry and Wellness LLC. All rights reserved.</p>
           <div className="mt-2 space-x-4 text-sm">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
