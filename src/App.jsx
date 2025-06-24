@@ -22,6 +22,7 @@ import PayOnline from './components/sections/resources/PayOnline'
 import News from './components/sections/resources/News'
 import GuidesTips from './components/sections/resources/GuidesTips'
 import Blog from './components/sections/resources/Blog'
+import ConditionsSection from './components/sections/ConditionsSection'
 
 function AppContent() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function AppContent() {
             <Route path="/news" element={<News />} />
             <Route path="/guides-tips" element={<GuidesTips />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/conditions" element={<ConditionsSection />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

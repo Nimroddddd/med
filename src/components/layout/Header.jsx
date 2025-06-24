@@ -19,6 +19,7 @@ const navItems = [
   { name: 'Home', href: '/' },
   { name: 'Providers', href: '/providers' },
   { name: 'Services', href: '/services' },
+  { name: 'Conditions We Treat', href: '/conditions' },
   { name: 'Resources', href: '/resources', dropdown: true },
   { name: 'Contact', href: '/contact' },
 ];
