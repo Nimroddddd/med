@@ -10,7 +10,8 @@ export default {
         primary: "#6495ED", // cerulean blue
         secondary: "#2563eb", // blue-600 for contrast
         accent: "#93c5fd", // blue-300 for lighter accent
-        neutral: "#FFFFFF", // white
+        neutral: "#FFFFFF", // white,
+        eh: "#bfdbfe",
         "neutral-dark": "#334155", // slate-700
         "medical-blue": "#6495ED",
         "medical-light": "#e0edfa", // very light cerulean

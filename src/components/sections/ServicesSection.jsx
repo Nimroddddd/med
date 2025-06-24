@@ -11,6 +11,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import PageTransition from '../PageTransition';
+import { Link } from 'react-router-dom';
 
 const ServicesSection = () => {
   const services = [
@@ -77,7 +78,7 @@ const ServicesSection = () => {
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
@@ -93,7 +94,7 @@ const ServicesSection = () => {
               <motion.div
                 key={service.title}
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
               >
@@ -117,7 +118,7 @@ const ServicesSection = () => {
           {/* Why Choose Us Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="bg-white rounded-2xl p-8 shadow-lg"
           >
@@ -127,7 +128,7 @@ const ServicesSection = () => {
                 <motion.div
                   key={item.title}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="text-center"
                 >
@@ -144,7 +145,7 @@ const ServicesSection = () => {
           {/* CTA Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-center mt-16"
           >
@@ -158,7 +159,9 @@ const ServicesSection = () => {
                 whileTap={{ scale: 0.95 }}
                 className="bg-white text-primary px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors"
               >
-                Schedule Appointment
+                <Link to="/book">
+                  Schedule Appointment
+                </Link>
               </motion.button>
             </div>
           </motion.div>

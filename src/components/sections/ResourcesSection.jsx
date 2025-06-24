@@ -12,6 +12,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import PageTransition from '../PageTransition';
+import { Link } from 'react-router-dom';
 
 const ResourcesSection = () => {
   const forms = [
@@ -96,7 +97,7 @@ const ResourcesSection = () => {
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
@@ -109,7 +110,7 @@ const ResourcesSection = () => {
           {/* Forms Section */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="mb-20"
           >
@@ -119,7 +120,7 @@ const ResourcesSection = () => {
                 <motion.div
                   key={form.title}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow"
                 >
@@ -144,7 +145,7 @@ const ResourcesSection = () => {
           {/* Health Resources */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mb-20"
           >
@@ -154,7 +155,7 @@ const ResourcesSection = () => {
                 <motion.div
                   key={resource.title}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow"
                 >
@@ -179,7 +180,7 @@ const ResourcesSection = () => {
           {/* Appointment Information */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="bg-primary/5 rounded-2xl p-8"
           >
@@ -189,7 +190,7 @@ const ResourcesSection = () => {
                 <motion.div
                   key={info.title}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="text-center"
                 >
@@ -198,13 +199,22 @@ const ResourcesSection = () => {
                   </div>
                   <h4 className="text-xl font-semibold text-gray-900 mb-3">{info.title}</h4>
                   <p className="text-gray-600 mb-4">{info.description}</p>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-secondary transition-colors"
-                  >
-                    {info.action}
-                  </motion.button>
+                  {info.action === 'Schedule Now' ? (
+                    <Link
+                      to="/book"
+                      className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-secondary transition-colors inline-block"
+                    >
+                      {info.action}
+                    </Link>
+                  ) : (
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-secondary transition-colors"
+                    >
+                      {info.action}
+                    </motion.button>
+                  )}
                 </motion.div>
               ))}
             </div>
@@ -213,7 +223,7 @@ const ResourcesSection = () => {
           {/* Important Notice */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-16 bg-yellow-50 border border-yellow-200 rounded-xl p-6"
           >

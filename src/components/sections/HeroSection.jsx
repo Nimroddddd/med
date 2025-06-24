@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Calendar, Phone, ArrowRight, Shield, Heart, Users } from 'lucide-react';
 import PageTransition from '../PageTransition';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
@@ -23,7 +24,7 @@ const HeroSection = () => {
                   className="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium"
                 >
                   <Shield className="w-4 h-4 mr-2" />
-                  Trusted Family Medicine Since 2010
+                  Healthwise Psychiatry and Wellness LLC
                 </motion.div>
                 
                 <motion.h1
@@ -42,8 +43,7 @@ const HeroSection = () => {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="text-xl text-gray-600 leading-relaxed"
                 >
-                  Welcome to compassionate, comprehensive healthcare. Dr. Sarah Johnson provides 
-                  personalized medical care for your entire family in a warm, welcoming environment.
+                  Welcome to compassionate, comprehensive psychiatric and wellness care. Adeyemi Kobari, DNP, PMHNP-BC provides personalized mental health care for you and your loved ones in a supportive environment.
                 </motion.p>
               </div>
 
@@ -81,15 +81,14 @@ const HeroSection = () => {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Link
+                  to="/book"
                   className="bg-primary text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center justify-center space-x-2 hover:bg-secondary transition-colors"
                 >
                   <Calendar className="w-5 h-5" />
                   <span>Book Appointment</span>
                   <ArrowRight className="w-5 h-5" />
-                </motion.button>
+                </Link>
                 
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -113,13 +112,17 @@ const HeroSection = () => {
                 {/* Placeholder for doctor image */}
                 <div className="w-full h-96 lg:h-[500px] bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center">
                   <div className="text-center space-y-4">
-                    <div className="w-32 h-32 bg-primary rounded-full flex items-center justify-center mx-auto">
-                      <span className="text-white text-4xl font-bold">MD</span>
+                    <div className="w-64 h-64 rounded-full overflow-hidden flex items-center justify-center mx-auto bg-primary">
+                      <img
+                        src="profile.jpg"
+                        alt="Adeyemi Kobari profile"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-bold text-gray-900">Dr. Sarah Johnson</h3>
-                      <p className="text-gray-600">Board Certified Family Medicine</p>
-                      <p className="text-sm text-gray-500">15+ Years of Experience</p>
+                      <h3 className="text-2xl font-bold text-gray-900">Adeyemi Kobari, DNP, PMHNP-BC</h3>
+                      <p className="text-gray-600">Psychiatric Nurse Practitioner</p>
+                      <p className="text-sm text-gray-500">Healthwise Psychiatry and Wellness LLC</p>
                     </div>
                   </div>
                 </div>

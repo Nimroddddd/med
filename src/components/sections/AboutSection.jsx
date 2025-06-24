@@ -4,10 +4,10 @@ import PageTransition from '../PageTransition';
 
 const AboutSection = () => {
   const credentials = [
-    { icon: GraduationCap, title: "Medical Degree", detail: "Harvard Medical School" },
-    { icon: Award, title: "Board Certified", detail: "American Board of Family Medicine" },
-    { icon: Clock, title: "Experience", detail: "15+ Years in Practice" },
-    { icon: Users, title: "Patients Served", detail: "5000+ Families" },
+    { icon: GraduationCap, title: "Doctor of Nursing Practice", detail: "DNP, PMHNP-BC" },
+    { icon: Award, title: "Board Certified", detail: "Psychiatric-Mental Health Nurse Practitioner" },
+    { icon: Clock, title: "Experience", detail: "Extensive experience in psychiatric and wellness care" },
+    { icon: Users, title: "Patients Served", detail: "Hundreds of individuals and families" },
   ];
 
   const values = [
@@ -23,7 +23,7 @@ const AboutSection = () => {
     },
     {
       icon: Star,
-      title: "Excellence",
+      title: "Excellence",    
       description: "Committed to providing the highest quality medical care."
     }
   ];
@@ -35,13 +35,14 @@ const AboutSection = () => {
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">About Dr. Sarah Johnson</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">About Adeyemi Kobari, DNP, PMHNP-BC</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Dedicated to providing exceptional healthcare with a personal touch
+              Healthwise Psychiatry and Wellness LLC<br/>
+              Dedicated to providing exceptional psychiatric and wellness care with a personal touch
             </p>
           </motion.div>
 
@@ -49,21 +50,18 @@ const AboutSection = () => {
             {/* Left Content - Doctor Info */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               className="space-y-8"
             >
               <div className="space-y-6">
-                <h3 className="text-3xl font-bold text-gray-900">Meet Your Doctor</h3>
+                <h3 className="text-3xl font-bold text-gray-900">Meet Your Provider</h3>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  Dr. Sarah Johnson is a board-certified family medicine physician with over 15 years 
-                  of experience providing comprehensive healthcare to families in our community. 
-                  She believes in building lasting relationships with her patients and their families.
+                  Adeyemi Kobari, DNP, PMHNP-BC, is a board-certified psychiatric-mental health nurse practitioner with extensive experience providing compassionate psychiatric and wellness care to individuals and families. 
+                  He is dedicated to building lasting relationships and supporting the mental health and well-being of the community.
                 </p>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  After graduating from Harvard Medical School, Dr. Johnson completed her residency 
-                  at Massachusetts General Hospital. She has been serving our community since 2010, 
-                  providing compassionate care to patients of all ages.
+                  As the founder of Healthwise Psychiatry and Wellness LLC, Adeyemi Kobari is committed to delivering personalized, evidence-based care in a supportive environment.
                 </p>
               </div>
 
@@ -73,7 +71,7 @@ const AboutSection = () => {
                   <motion.div
                     key={credential.title}
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg"
                   >
@@ -92,7 +90,7 @@ const AboutSection = () => {
             {/* Right Content - Image and Stats */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               className="space-y-8"
             >
@@ -100,12 +98,16 @@ const AboutSection = () => {
               <div className="relative">
                 <div className="w-full h-96 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center">
                   <div className="text-center space-y-4">
-                    <div className="w-40 h-40 bg-primary rounded-full flex items-center justify-center mx-auto">
-                      <span className="text-white text-6xl font-bold">MD</span>
+                    <div className="w-48 h-48 rounded-full overflow-hidden flex items-center justify-center mx-auto bg-primary">
+                      <img
+                        src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=facearea&w=400&h=400&facepad=2"
+                        alt="Adeyemi Kobari profile"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-bold text-gray-900">Dr. Sarah Johnson</h3>
-                      <p className="text-gray-600">Family Medicine Physician</p>
+                      <h3 className="text-2xl font-bold text-gray-900">Adeyemi Kobari, DNP, PMHNP-BC</h3>
+                      <p className="text-gray-600">Psychiatric Nurse Practitioner</p>
                     </div>
                   </div>
                 </div>
@@ -125,7 +127,7 @@ const AboutSection = () => {
           {/* Values Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mt-20"
           >
@@ -135,7 +137,7 @@ const AboutSection = () => {
                 <motion.div
                   key={value.title}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow"
                 >

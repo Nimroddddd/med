@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Practice Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
@@ -19,11 +19,11 @@ const Footer = () => {
               <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
                 <span className="text-primary font-bold text-sm">MD</span>
               </div>
-              <h3 className="text-xl font-bold">Dr. Sarah Johnson</h3>
+              <h3 className="text-xl font-bold">Adeyemi Kobari, DNP, PMHNP-BC</h3>
             </div>
             <p className="text-gray-200 mb-4">
-              Providing compassionate, comprehensive healthcare for families in our community. 
-              Your health and well-being are our top priorities.
+              Healthwise Psychiatry and Wellness LLC<br/>
+              Providing compassionate, comprehensive psychiatric and wellness care for our community.
             </p>
             <div className="flex space-x-4">
               <motion.a
@@ -53,7 +53,7 @@ const Footer = () => {
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <h4 className="text-lg font-semibold mb-4">Contact Information</h4>
@@ -68,7 +68,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-gray-300" />
-                <span className="text-gray-200">123 Medical Center Dr, Suite 100</span>
+                <span className="text-gray-200">1147 Brook Forest Avenue, Shorewood, IL 60404, United States</span>
               </div>
             </div>
           </motion.div>
@@ -76,22 +76,22 @@ const Footer = () => {
           {/* Office Hours */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h4 className="text-lg font-semibold mb-4">Office Hours</h4>
             <div className="space-y-2 text-gray-200">
               <div className="flex justify-between">
-                <span>Monday - Friday</span>
-                <span>8:00 AM - 5:00 PM</span>
+                <span>Thursday</span>
+                <span>7:00 AM - 5:00 PM</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Friday</span>
+                <span>7:00 AM - 5:00 PM</span>
               </div>
               <div className="flex justify-between">
                 <span>Saturday</span>
-                <span>9:00 AM - 2:00 PM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Sunday</span>
-                <span>Closed</span>
+                <span>7:00 AM - 5:00 PM</span>
               </div>
             </div>
             <div className="mt-4 p-3 bg-white/10 rounded-lg">
@@ -105,11 +105,12 @@ const Footer = () => {
         {/* Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="border-t border-white/20 mt-8 pt-8 text-center text-gray-300"
         >
           <p>&copy; {currentYear} Dr. Sarah Johnson Family Medicine. All rights reserved.</p>
+          <p>&copy; {currentYear} Healthwise Psychiatry and Wellness LLC. All rights reserved.</p>
           <div className="mt-2 space-x-4 text-sm">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

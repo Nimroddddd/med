@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import HeroSection from './components/sections/HeroSection'
@@ -7,14 +7,19 @@ import ServicesSection from './components/sections/ServicesSection'
 import ResourcesSection from './components/sections/ResourcesSection'
 import ContactSection from './components/sections/ContactSection'
 import NotFound from './components/sections/NotFound'
+import BookingSection from './components/sections/BookingSection'
 import { AnimatePresence } from 'framer-motion'
 import './App.css'
+import OwnerPortalApp from './components/portal/OwnerPortalApp'
+import ProvidersSection from './components/sections/ProvidersSection'
+import ProviderDetail from './components/sections/ProviderDetail'
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const isOwnerPortal = location.pathname.startsWith('/owner-portal');
   return (
-    <Router>
       <div className="App">
-        <Header />
+      {!isOwnerPortal && <Header />}
         <AnimatePresence mode='wait'>
           <main className='min-h-screen'>
             <Routes>
@@ -23,12 +28,23 @@ function App() {
               <Route path="/services" element={<ServicesSection />} />
               <Route path="/resources" element={<ResourcesSection />} />
               <Route path="/contact" element={<ContactSection />} />
+            <Route path="/book" element={<BookingSection />} />
+            <Route path="/owner-portal" element={<OwnerPortalApp />} />
+            <Route path="/providers" element={<ProvidersSection />} />
+            <Route path="/providers/:id" element={<ProviderDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
         </AnimatePresence>
-        <Footer />
+      {!isOwnerPortal && <Footer />}
       </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   )
 }

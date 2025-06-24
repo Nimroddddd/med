@@ -10,6 +10,7 @@ import {
   MessageSquare
 } from 'lucide-react';
 import PageTransition from '../PageTransition';
+import { Link } from 'react-router-dom';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -48,15 +49,15 @@ const ContactSection = () => {
     {
       icon: MapPin,
       title: "Address",
-      details: ["123 Medical Center Dr", "Suite 100", "Anytown, ST 12345"],
+      details: ["1147 Brook Forest Avenue", "Shorewood, IL 60404", "United States"],
       action: "Get Directions"
     }
   ];
 
   const officeHours = [
-    { day: "Monday - Friday", hours: "8:00 AM - 5:00 PM" },
-    { day: "Saturday", hours: "9:00 AM - 2:00 PM" },
-    { day: "Sunday", hours: "Closed" }
+    { day: "Thursday", hours: "7:00 AM - 5:00 PM" },
+    { day: "Friday", hours: "7:00 AM - 5:00 PM" },
+    { day: "Saturday", hours: "7:00 AM - 5:00 PM" }
   ];
 
   return (
@@ -66,7 +67,7 @@ const ContactSection = () => {
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
@@ -80,7 +81,7 @@ const ContactSection = () => {
             {/* Left Column - Contact Information */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               className="space-y-8"
             >
@@ -90,7 +91,7 @@ const ContactSection = () => {
                   <motion.div
                     key={info.title}
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     className="bg-white rounded-xl p-6 shadow-lg"
                   >
@@ -121,7 +122,7 @@ const ContactSection = () => {
               {/* Office Hours */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="bg-white rounded-xl p-6 shadow-lg"
               >
@@ -149,18 +150,17 @@ const ContactSection = () => {
               {/* Quick Actions */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="grid grid-cols-1 sm:grid-cols-2 gap-4"
               >
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Link
+                  to="/book"
                   className="bg-primary text-white p-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:bg-secondary transition-colors"
                 >
                   <Calendar className="w-5 h-5" />
                   <span>Book Appointment</span>
-                </motion.button>
+                </Link>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -175,7 +175,7 @@ const ContactSection = () => {
             {/* Right Column - Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               className="bg-white rounded-xl p-8 shadow-lg"
             >

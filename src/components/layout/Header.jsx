@@ -8,32 +8,32 @@ const Header = () => {
 
   const navItems = [
     { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
+    { name: 'Providers', href: '/providers' },
     { name: 'Services', href: '/services' },
     { name: 'Resources', href: '/resources' },
     { name: 'Contact', href: '/contact' },
   ];
+  const MotionLink = motion(Link)
 
   return (
     <motion.header 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100"
+      className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-lg"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
+          <motion.div
             className="flex items-center space-x-2"
           >
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">MD</span>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-primary">Dr. Sarah Johnson</h1>
-              <p className="text-xs text-gray-600">Family Medicine</p>
+            <div className="flex flex-col justify-center">
+              <span className="text-xl font-bold text-primary leading-tight whitespace-nowrap">Healthwise Psychiatry and Wellness</span>
+              <span className="text-xs text-gray-500 font-medium tracking-wide mt-0.5">LLC</span>
             </div>
           </motion.div>
 
@@ -57,15 +57,14 @@ const Header = () => {
               <Phone className="w-4 h-4" />
               <span>(555) 123-4567</span>
             </div>
-            <motion.button
+            <MotionLink
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/contact"
               className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-secondary transition-colors"
+              to="/book"
             >
-              
               Book Appointment
-            </motion.button>
+            </MotionLink>
           </div>
 
           {/* Mobile Menu Button */}
@@ -101,9 +100,13 @@ const Header = () => {
                   <Phone className="w-4 h-4" />
                   <span>(555) 123-4567</span>
                 </div>
-                <button className="w-full mt-2 bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-secondary transition-colors">
+                <Link
+                  to="/book"
+                  className="w-full mt-2 bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-secondary transition-colors block text-center"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Book Appointment
-                </button>
+                </Link>
               </div>
             </div>
           </motion.div>
