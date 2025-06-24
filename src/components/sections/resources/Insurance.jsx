@@ -2,13 +2,13 @@ import { motion } from 'framer-motion';
 import { ShieldCheck, Info, Phone } from 'lucide-react';
 
 const insurancePlans = [
-  { name: 'Aetna', logo: '/src/assets/insurance-logos/aetna.svg' },
-  { name: 'Blue Cross Blue Shield', logo: '/src/assets/insurance-logos/bcbs.svg' },
-  { name: 'Cigna', logo: '/src/assets/insurance-logos/cigna.svg' },
-  { name: 'UnitedHealthcare', logo: '/src/assets/insurance-logos/unitedhealthcare.svg' },
-  { name: 'Medicaid', logo: '/src/assets/insurance-logos/medicaid.svg' },
-  { name: 'Humana', logo: '/src/assets/insurance-logos/humana.svg' },
-  { name: 'Beacon Health Options', logo: '/src/assets/insurance-logos/beacon.svg' },
+  { name: 'Aetna', logo: 'insurance-logos/aetna.svg' },
+  { name: 'Blue Cross Blue Shield', logo: 'insurance-logos/bcbs.svg' },
+  { name: 'Cigna', logo: 'insurance-logos/cigna.svg' },
+  { name: 'UnitedHealthcare', logo: 'insurance-logos/unitedhealthcare.svg' },
+  { name: 'Medicaid', logo: 'insurance-logos/medicaid.svg' },
+  { name: 'Humana', logo: 'insurance-logos/humana.svg' },
+  { name: 'Beacon Health Options', logo: 'insurance-logos/beacon.svg' },
 ];
 
 export default function Insurance() {
