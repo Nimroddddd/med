@@ -15,8 +15,8 @@ import {
 import PageTransition from '../PageTransition';
 import { Link } from 'react-router-dom';
 
-const services = [
-  {
+  const services = [
+    {
     icon: User,
     title: "Individual Therapy",
     description: "One-on-one sessions focused on personal growth, coping strategies, and addressing specific mental health concerns."
@@ -25,23 +25,23 @@ const services = [
     icon: Users,
     title: "Couples Counseling",
     description: "Helping partners improve communication, resolve conflicts, and strengthen their relationship."
-  },
-  {
+    },
+    {
     icon: Home,
     title: "Family Therapy",
     description: "Addressing family dynamics, improving communication, and supporting families through challenges."
-  },
-  {
+    },
+    {
     icon: Users2,
     title: "Group Therapy",
     description: "Connect with others facing similar challenges in a supportive group setting led by a therapist."
-  },
-  {
+    },
+    {
     icon: ClipboardCheck,
     title: "Psychiatric Evaluation",
     description: "Comprehensive assessment to diagnose mental health conditions and formulate treatment plans."
-  },
-  {
+    },
+    {
     icon: Pill,
     title: "Medication Management",
     description: "Expert oversight of psychiatric medications to ensure effectiveness and manage side effects."
@@ -50,38 +50,38 @@ const services = [
     icon: Smile,
     title: "Child & Adolescent Therapy",
     description: "Specialized therapy approaches tailored to the unique needs of children and teenagers."
-  },
-  {
+    },
+    {
     icon: Video,
     title: "Teletherapy Services",
     description: "Secure virtual sessions from the comfort of your home for convenient access to mental health support."
-  }
-];
+    }
+  ];
 
-const whyChooseUs = [
-  {
-    icon: Shield,
-    title: "Trusted Care",
-    description: "Board-certified physician with 15+ years of experience"
-  },
-  {
-    icon: Clock,
-    title: "Convenient Hours",
-    description: "Extended hours including Saturday appointments"
-  },
-  {
-    icon: CheckCircle,
-    title: "Comprehensive Care",
-    description: "One-stop care for your entire family"
-  }
-];
+  const whyChooseUs = [
+    {
+      icon: Shield,
+      title: "Trusted Care",
+      description: "Board-certified physician with 15+ years of experience"
+    },
+    {
+      icon: Clock,
+      title: "Convenient Hours",
+      description: "Extended hours including Saturday appointments"
+    },
+    {
+      icon: CheckCircle,
+      title: "Comprehensive Care",
+      description: "One-stop care for your entire family"
+    }
+  ];
 
 const ServicesSection = () => {
   return (
     <PageTransition>
       <section id="services" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -94,7 +94,7 @@ const ServicesSection = () => {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <motion.div 
+              <motion.div
                 key={service.title}
                 className="bg-gray-50 rounded-2xl p-8 text-center shadow hover:shadow-lg transition-shadow flex flex-col items-center"
                 initial={{ opacity: 0, y: 30 }}

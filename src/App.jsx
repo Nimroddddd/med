@@ -14,6 +14,7 @@ import OwnerPortalApp from './components/portal/OwnerPortalApp'
 import ProvidersSection from './components/sections/ProvidersSection'
 import ProviderDetail from './components/sections/ProviderDetail'
 import TherapyMethods from './components/sections/resources/TherapyMethods'
+import MentalHealthConditions from './components/sections/resources/MentalHealthConditions'
 import FAQs from './components/sections/resources/FAQs'
 import Forms from './components/sections/resources/Forms'
 import Insurance from './components/sections/resources/Insurance'
@@ -22,7 +23,6 @@ import PayOnline from './components/sections/resources/PayOnline'
 import News from './components/sections/resources/News'
 import GuidesTips from './components/sections/resources/GuidesTips'
 import Blog from './components/sections/resources/Blog'
-import ConditionsSection from './components/sections/ConditionsSection'
 
 function AppContent() {
   const location = useLocation();
@@ -43,6 +43,7 @@ function AppContent() {
             <Route path="/providers" element={<ProvidersSection />} />
             <Route path="/providers/:id" element={<ProviderDetail />} />
             <Route path="/therapy-methods" element={<TherapyMethods />} />
+            <Route path="/mental-health-conditions" element={<MentalHealthConditions />} />
             <Route path="/faqs" element={<FAQs />} />
             <Route path="/forms" element={<Forms />} />
             <Route path="/insurance" element={<Insurance />} />
@@ -51,7 +52,6 @@ function AppContent() {
             <Route path="/news" element={<News />} />
             <Route path="/guides-tips" element={<GuidesTips />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/conditions" element={<ConditionsSection />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

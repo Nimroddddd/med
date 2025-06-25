@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const resourcesDropdown = [
   { name: 'Therapy Approaches', href: '/therapy-methods' },
+  { name: 'Mental Health Conditions', href: '/mental-health-conditions' },
   { name: 'FAQs', href: '/faqs' },
   { name: 'Patient Forms', href: '/forms' },
   { name: 'Insurance Info', href: '/insurance' },
@@ -16,10 +17,9 @@ const resourcesDropdown = [
 ];
 
 const navItems = [
-  { name: 'Home', href: '/' },
+  // { name: 'Home', href: '/' },
   { name: 'Providers', href: '/providers' },
   { name: 'Services', href: '/services' },
-  { name: 'Conditions We Treat', href: '/conditions' },
   { name: 'Resources', href: '/resources', dropdown: true },
   { name: 'Contact', href: '/contact' },
 ];
@@ -50,23 +50,23 @@ const Header = () => {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-lg"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <motion.div
-            className="flex items-center space-x-2"
-          >
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">MD</span>
-            </div>
-            <div className="flex flex-col justify-center">
-              <span className="text-xl md:text-xl sm:text-lg text-base font-bold text-primary leading-tight whitespace-nowrap max-w-[160px] sm:max-w-none truncate md:whitespace-nowrap">Healthwise Psychiatry and Wellness</span>
-              <span className="text-xs text-gray-500 font-medium tracking-wide mt-0.5">LLC</span>
-            </div>
-          </motion.div>
-
+          <Link to="/">
+            <motion.div
+              className="flex items-center space-x-2 basis-full lg:basis-0"
+            >
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">MD</span>
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="text-md md:text-lg sm:text-lg lg:text-md xl:text-xl text-base font-bold text-primary leading-tight max-w-[160px] sm:max-w-none whitespace-nowrap">Healthwise Psychiatry and Wellness</span>
+              </div>
+            </motion.div>
+          </Link>
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-4 xl:space-x-8">
             {navItems.map((item) => (
               item.dropdown ? (
                 <div
@@ -104,21 +104,21 @@ const Header = () => {
                   )}
                 </div>
               ) : (
-                <motion.div key={item.name} whileHover={{ y: -2 }}>
-                  <Link
-                    to={item.href}
-                    className="text-gray-700 hover:text-primary transition-colors font-medium"
-                  >
-                    {item.name}
-                  </Link>
-                </motion.div>
+              <motion.div key={item.name} whileHover={{ y: -2 }}>
+                <Link
+                  to={item.href}
+                  className="text-gray-700 hover:text-primary transition-colors font-medium"
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
               )
             ))}
           </nav>
 
           {/* Contact Info */}
           <div className="hidden lg:flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <div className="flex items-center space-x-2 text-sm text-gray-600 hidden">
               <Phone className="w-4 h-4" />
               <span>+1 (708) 953-5459</span>
             </div>
@@ -182,14 +182,14 @@ const Header = () => {
                     )}
                   </div>
                 ) : (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
                 )
               ))}
               <div className="pt-4 border-t border-gray-100">
