@@ -143,7 +143,7 @@ const BookingSection = () => {
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-primary mb-1">Need Help?</h4>
-                <p className="text-gray-700">Call us at <a href="tel:5551234567" className="text-primary underline">(555) 123-4567</a> or email <a href="mailto:info@healthwise.com" className="text-primary underline">info@healthwise.com</a></p>
+                <p className="text-gray-700">Call us at <a href="tel:5551234567" className="text-primary underline">+1 (708) 953-5459</a> or email <a href="mailto:info@healthwisepw.com" className="text-primary underline">info@healthwisepw.com</a></p>
               </div>
             </div>
           </div>

@@ -79,19 +79,34 @@ import { Link } from 'react-router-dom';
 const ServicesSection = () => {
   return (
     <PageTransition>
-      <section id="services" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
+      {/* Background Image Banner */}
+      <div
+        className="relative py-40 bg-cover bg-center text-white"
+        style={{ backgroundImage: "url('/office-2.jpg')" }} // Placeholder image
+      >
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-6xl font-extrabold tracking-tight drop-shadow-lg"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive mental health care for individuals, couples, and families.
-            </p>
-          </motion.div>
+            Our Services
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mt-4 text-xl text-gray-200 max-w-3xl mx-auto drop-shadow-lg"
+          >
+            Comprehensive mental health care for individuals, couples, and families.
+          </motion.p>
+        </div>
+      </div>
+
+      <section id="services" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
               <motion.div

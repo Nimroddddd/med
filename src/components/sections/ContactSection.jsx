@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import PageTransition from '../PageTransition';
 import { Link } from 'react-router-dom';
+import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -33,17 +34,19 @@ const ContactSection = () => {
     console.log('Form submitted:', formData);
   };
 
+  const position = { lat: 41.525, lng: -88.15 }; // Approx. Shorewood, IL
+
   const contactInfo = [
     {
       icon: Phone,
       title: "Phone",
-      details: ["(555) 123-4567", "(555) 123-4568 (Fax)"],
+      details: ["+1 (708) 953-5459"],
       action: "Call Now"
     },
     {
       icon: Mail,
       title: "Email",
-      details: ["dr.johnson@email.com", "appointments@email.com"],
+      details: ["info@healthwisepw.com"],
       action: "Send Email"
     },
     {
@@ -62,21 +65,34 @@ const ContactSection = () => {
 
   return (
     <PageTransition>
-      <section id="contact" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <motion.div
+      {/* Background Image Banner */}
+      <div
+        className="relative py-40 bg-cover bg-center text-white"
+        style={{ backgroundImage: "url('/office-3.jpg')" }} // Placeholder image
+      >
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-6xl font-extrabold tracking-tight drop-shadow-lg"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get in touch with us for appointments, questions, or to learn more about our services
-            </p>
-          </motion.div>
+            Contact Us
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mt-4 text-xl text-gray-200 max-w-3xl mx-auto drop-shadow-lg"
+          >
+            Get in touch with us for appointments, questions, or to learn more about our services.
+          </motion.p>
+        </div>
+      </div>
 
+      <section id="contact" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Left Column - Contact Information */}
             <motion.div
@@ -265,6 +281,19 @@ const ContactSection = () => {
           </div>
         </div>
       </section>
+
+      {/* Google Maps Integration */}
+      <div id="map-location" className="w-full h-[500px]">
+        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+          <Map 
+            defaultCenter={position} 
+            defaultZoom={14}
+            mapId="your-map-id" // Optional: for custom styling
+          >
+            <Marker position={position} />
+          </Map>
+        </APIProvider>
+      </div>
     </PageTransition>
   );
 };

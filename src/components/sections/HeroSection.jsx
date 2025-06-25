@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Calendar, Phone, ArrowRight, Shield, Heart, Users } from 'lucide-react';
+import { Calendar, Phone, ArrowRight, Shield, Heart, Users, MapPin } from 'lucide-react';
 import PageTransition from '../PageTransition';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,37 +13,37 @@ const HERO_BG = "fam.jpg"
 const HERO_SLIDES = [
   {
     title: 'Anxiety',
-    img: '/fam.jpg',
+    img: '/anxiety.jpg',
     desc: 'Learn more about how we treat anxiety disorders.',
     link: '/conditions/anxiety',
   },
   {
     title: 'Depression',
-    img: '/fam-2.jpg',
+    img: '/depression.jpg',
     desc: 'Discover our approach to depression care.',
     link: '/conditions/depression',
   },
   {
     title: 'OCD',
-    img: '/hero.jpg',
+    img: '/ocd.jpg',
     desc: 'Find out about our OCD treatment options.',
     link: '/conditions/ocd',
   },
   {
     title: 'ADHD',
-    img: '/office.jpg',
+    img: '/adhd.jpg',
     desc: 'Explore our treatment options for ADHD.',
     link: '/conditions/adhd',
   },
   {
     title: 'PTSD',
-    img: '/profile.jpg',
+    img: '/ptsd.jpg',
     desc: 'Comprehensive care for post-traumatic stress disorder.',
     link: '/conditions/ptsd',
   },
   {
     title: 'Bipolar Disorder',
-    img: '/fam.jpg', // Reusing image
+    img: '/bipolar.jpg', // Reusing image
     desc: 'Personalized treatment plans for bipolar disorder.',
     link: '/conditions/bipolar-disorder',
   },
@@ -113,16 +113,18 @@ const HeroSection = () => {
         </div>
       </section>
       {/* Address Bar */}
-      <div className="w-full bg-primary text-white py-4 flex flex-col sm:flex-row items-center justify-center gap-2 text-center text-base font-medium shadow">
-        <span className="inline-flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-          123 Main Street, Naperville, IL 60540
-        </span>
-        <span className="hidden sm:inline mx-2">|</span>
-        <span className="inline-flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h2l.4 2M7 13h10l4-8H5.4" /><circle cx="7" cy="21" r="1" /><circle cx="17" cy="21" r="1" /></svg>
-          (708) 953-5459
-        </span>
+      <div className="w-full bg-primary text-white py-3 flex items-center justify-center text-center shadow">
+        <Link
+          to="/contact#map-location"
+          className="group inline-flex items-center gap-3 text-base font-medium hover:text-secondary transition-colors px-4 py-2 rounded-full"
+        >
+          <MapPin className="h-5 w-5 flex-shrink-0" />
+          <span>1147 Brook Forest Avenue, Shorewood, IL 60404</span>
+          <span className="ml-2 text-xs uppercase font-bold bg-white/20 text-white px-3 py-1 rounded-full group-hover:bg-white/30 transition-colors flex items-center gap-1.5">
+            View Map
+            <ArrowRight className="w-3 h-3" />
+          </span>
+        </Link>
       </div>
       {/* Why Choose Us Section */}
       <section className="mt-14 w-full relative py-16 px-4 sm:px-6 lg:px-8 bg-white">
@@ -169,8 +171,7 @@ const HeroSection = () => {
       <section className="relative w-full bg-white flex flex-col items-center justify-center pt-8 pb-4">
         <div className="w-full max-w-5xl mx-auto">
           <div className="mb-8 text-center">
-            <div className="text-lg md:text-xl font-semibold text-orange-500 mb-1">Conditions</div>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary-900 mb-2">What We Treat</h2>
+            <h2 className="text-3xl md:text-5xl mb-2 text-primary font-extrabold">Conditions We Treat</h2>
           </div>
           <Swiper
             modules={[Navigation, Pagination, A11y]}

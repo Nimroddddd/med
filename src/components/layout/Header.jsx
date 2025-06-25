@@ -18,6 +18,7 @@ const resourcesDropdown = [
 
 const navItems = [
   // { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
   { name: 'Providers', href: '/providers' },
   { name: 'Services', href: '/services' },
   { name: 'Resources', href: '/resources', dropdown: true },
@@ -55,7 +56,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/">
             <motion.div
-              className="flex items-center space-x-2 basis-full lg:basis-0"
+              className="flex items-center space-x-2 basis-full lg:basis-0 hover:scale-105 duration-300"
             >
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">MD</span>
