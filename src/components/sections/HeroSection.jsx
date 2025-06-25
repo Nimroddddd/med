@@ -29,6 +29,24 @@ const HERO_SLIDES = [
     desc: 'Find out about our OCD treatment options.',
     link: '/conditions/ocd',
   },
+  {
+    title: 'ADHD',
+    img: '/office.jpg',
+    desc: 'Explore our treatment options for ADHD.',
+    link: '/conditions/adhd',
+  },
+  {
+    title: 'PTSD',
+    img: '/profile.jpg',
+    desc: 'Comprehensive care for post-traumatic stress disorder.',
+    link: '/conditions/ptsd',
+  },
+  {
+    title: 'Bipolar Disorder',
+    img: '/fam.jpg', // Reusing image
+    desc: 'Personalized treatment plans for bipolar disorder.',
+    link: '/conditions/bipolar-disorder',
+  },
 ];
 
 const HeroSection = () => {
@@ -147,13 +165,22 @@ const HeroSection = () => {
           </div>
         </div>
       </section>
-      {/* Swiper Carousel */}
+      {/* Swiper Carousel with Heading */}
       <section className="relative w-full bg-white flex flex-col items-center justify-center pt-8 pb-4">
         <div className="w-full max-w-5xl mx-auto">
+          <div className="mb-8 text-center">
+            <div className="text-lg md:text-xl font-semibold text-orange-500 mb-1">Conditions</div>
+            <h2 className="text-3xl md:text-5xl font-bold text-primary-900 mb-2">What We Treat</h2>
+          </div>
           <Swiper
             modules={[Navigation, Pagination, A11y]}
             spaceBetween={30}
             slidesPerView={1}
+            breakpoints={{
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
             navigation
             pagination={{ clickable: true }}
             loop
