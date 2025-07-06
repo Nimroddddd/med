@@ -39,19 +39,21 @@ const BookingSection = () => {
     const fetchAvailableSlots = async () => {
       setLoadingSlots(true);
       try {
-        const startDate = new Date().toISOString().split('T')[0];
+        const startDate = new Date()
+        startDate.setDate(startDate.getDate() + 7)
+        const startDateStr = startDate.toISOString().split('T')[0];
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + (4 * 7)); // 4 weeks from now
         const endDateStr = endDate.toISOString().split('T')[0];
         
-        console.log('Frontend requesting dates:', { startDate, endDateStr });
+        console.log('Frontend requesting dates:', { startDateStr, endDateStr });
         
-        const data = await getAvailableSlots(startDate, endDateStr);
+        const data = await getAvailableSlots(startDateStr, endDateStr);
         console.log('Backend returned data:', data);
         console.log('Backend available dates:', Object.keys(data));
         
         setAvailableSlots(data);
-        
+        console.log(data)
         // Convert backend dates to Date objects for the dropdown
         const dates = Object.keys(data).map(dateStr => new Date(dateStr));
         dates.sort((a, b) => a - b); // Sort chronologically
@@ -138,9 +140,9 @@ const BookingSection = () => {
     return availableTimes.includes(time);
   };
 
-  // Generate time slots (7 AM to 4 PM)
+  // Generate time slots (7 AM to 5 PM)
   const generateTimeSlots = () => {
-    return Array.from({ length: 10 }, (_, i) => {
+    return Array.from({ length: 11 }, (_, i) => {
       const hour = 7 + i;
       const ampm = hour < 12 ? 'AM' : 'PM';
       const displayHour = hour % 12 === 0 ? 12 : hour % 12;
@@ -179,7 +181,18 @@ const BookingSection = () => {
           <div className="bg-white/90 rounded-2xl shadow-xl p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
             {/* Left: Form */}
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Appointment Request</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Appointment Request</h2>
+              {/* TeleVisit label with tooltip */}
+              <div className="mb-6 flex items-center gap-2">
+                <span className="font-medium text-primary">TeleVisit</span>
+                <div className="relative group inline-block">
+                  <span className="ml-1 cursor-pointer text-gray-400 hover:text-primary" tabIndex="0">&#9432;
+                    <span className="absolute left-1/2 -translate-x-1/2 mt-6 w-56 rounded-lg bg-gray-900 text-white text-xs px-3 py-2 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity z-20 pointer-events-none">
+                      A TeleVisit is a virtual appointment conducted via video or phone, allowing you to consult with your provider remotely from the comfort of your home.
+                    </span>
+                  </span>
+                </div>
+              </div>
               <form className="space-y-5" onSubmit={handleSubmit}>
                 <div>
                   <label className="block text-gray-700 font-medium mb-1">Full Name</label>
@@ -192,7 +205,7 @@ const BookingSection = () => {
                 <div className="flex gap-4">
                   <div className="flex-1">
                     <label className="block text-gray-700 font-medium mb-1">Phone</label>
-                    <input name="phone" value={form.phone} onChange={handleInputChange} type="tel" className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="(555) 123-4567" required />
+                    <input name="phone" value={form.phone} onChange={handleInputChange} type="tel" className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your Number" required />
                   </div>
                   <div className="flex-1">
                     <label className="block text-gray-700 font-medium mb-1">Select Date</label>
@@ -202,14 +215,16 @@ const BookingSection = () => {
                         const dateStr = date.toISOString().slice(0, 10);
                         const availableTimes = getAvailableTimesForDate(dateStr);
                         const hasAvailability = availableTimes.length > 0;
+                        // Convert to local date for display
+                        const utcDate = new Date(`${dateStr}T00:00:00Z`);
+                        const displayDate = utcDate.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
                         return (
                           <option 
                             key={dateStr} 
                             value={dateStr}
                             disabled={!hasAvailability}
                           >
-                            {date.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}
-                            {hasAvailability && ` (${availableTimes.length} slots)`}
+                            {displayDate}
                           </option>
                         );
                       })}
@@ -225,7 +240,17 @@ const BookingSection = () => {
                     {TIME_SLOTS.map(slot => {
                       const isAvailable = selectedDate ? isTimeSlotAvailable(selectedDate, slot.value) : false;
                       const isDisabled = !selectedDate || !isAvailable;
-                      
+
+                      // Convert to local time for display
+                      let localLabel = slot.label;
+                      if (selectedDate) {
+                        const utcDateTime = new Date(`${selectedDate}T${slot.value}:00Z`);
+                        localLabel = utcDateTime.toLocaleTimeString(undefined, {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        });
+                      }
+
                       return (
                         <button
                           type="button"
@@ -241,7 +266,7 @@ const BookingSection = () => {
                             }
                           `}
                         >
-                          {slot.label}
+                          {localLabel}
                         </button>
                       );
                     })}
@@ -266,6 +291,28 @@ const BookingSection = () => {
                   {loading ? 'Submitting...' : 'Submit Request'}
                 </button>
               </form>
+              {/* Success Modal */}
+              {success && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                  <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full relative animate-fadeIn">
+                    <button
+                      onClick={() => setSuccess(null)}
+                      className="absolute top-3 right-3 text-gray-400 hover:text-primary text-2xl font-bold"
+                      aria-label="Close"
+                    >
+                      ×
+                    </button>
+                    <h2 className="text-2xl font-bold text-primary mb-4">Appointment Requested</h2>
+                    <p className="text-gray-700 mb-4">{success}</p>
+                    <button
+                      onClick={() => setSuccess(null)}
+                      className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-secondary transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
             {/* Right: Info */}
             <div className="bg-primary/5 rounded-xl p-6 md:p-8 flex flex-col gap-6">
@@ -280,7 +327,7 @@ const BookingSection = () => {
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-primary mb-1">Need Help?</h4>
-                <p className="text-gray-700">Call us at <a href="tel:5551234567" className="text-primary underline">+1 (708) 953-5459</a> or email <a href="mailto:info@healthwisepw.com" className="text-primary underline">info@healthwisepw.com</a></p>
+                <p className="text-gray-700">Call us at <a href="tel:7089535459" className="text-primary underline">+1 (708) 953-5459</a> or email <a href="mailto:info@healthwisepw.com" className="text-primary underline">info@healthwisepw.com</a></p>
               </div>
             </div>
           </div>

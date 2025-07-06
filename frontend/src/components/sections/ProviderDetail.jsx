@@ -74,7 +74,7 @@ export default function ProviderDetail() {
                 {provider.specialties && provider.specialties.length > 0 && (
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-3">Specialties</h2>
-                    <ul className="list-disc list-inside grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <ul className="list-disc list-outside pl-5 grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {provider.specialties.map(s => <li key={s}>{s}</li>)}
                     </ul>
                   </div>
@@ -82,7 +82,7 @@ export default function ProviderDetail() {
                 {(provider.education && provider.education.length > 0) && (
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-3">Education</h2>
-                    <ul className="list-disc list-inside space-y-1">
+                    <ul className="list-disc list-outside space-y-1 pl-5">
                       {provider.education.map(s => <li key={s}>{s}</li>)}
                     </ul>
                   </div>
@@ -102,10 +102,10 @@ export default function ProviderDetail() {
             </div>
             {/* Right Column: Image */}
             <div className="lg:col-span-1">
-              <div className="top-24">
+              <div className="top-24">  
                 {provider.image ? (
                   <img
-                    src={`/providers/${provider.image}`}
+                    src={provider.image}
                     alt={provider.name}
                     className="w-full object-cover rounded-2xl shadow-xl aspect-square"
                   />

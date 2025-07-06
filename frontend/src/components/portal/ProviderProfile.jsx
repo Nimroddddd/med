@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getProvider, updateProvider, setProviderPassword } from '../../api/providers';
+import toast from 'react-hot-toast';
 
 export default function ProviderProfile() {
   const [provider, setProvider] = useState(null);
@@ -27,7 +28,8 @@ export default function ProviderProfile() {
     specialties: '',
     education: '',
     credentials: '',
-    interests: ''
+    interests: '',
+    image: ''
   });
 
   const fetchProvider = async () => {
@@ -43,7 +45,8 @@ export default function ProviderProfile() {
         specialties: Array.isArray(data.specialties) ? data.specialties.join(', ') : data.specialties || '',
         education: Array.isArray(data.education) ? data.education.join(', ') : data.education || '',
         credentials: Array.isArray(data.credentials) ? data.credentials.join(', ') : data.credentials || '',
-        interests: data.interests || ''
+        interests: data.interests || '',
+        image: data.image || ''
       });
     } catch (err) {
       setError('Failed to load provider profile.');
@@ -113,26 +116,30 @@ export default function ProviderProfile() {
 
   const handlePasswordSave = async (e) => {
     e.preventDefault();
-    
     // Validation
     if (!passwordForm.oldPassword) {
       setPasswordError('Current password is required');
+      toast.error('Current password is required');
       return;
     }
     if (!passwordForm.newPassword) {
       setPasswordError('New password is required');
+      toast.error('New password is required');
       return;
     }
     if (passwordForm.newPassword.length < 6) {
       setPasswordError('New password must be at least 6 characters');
+      toast.error('New password must be at least 6 characters');
       return;
     }
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       setPasswordError('New passwords do not match');
+      toast.error('New passwords do not match');
       return;
     }
     if (passwordForm.oldPassword === passwordForm.newPassword) {
       setPasswordError('New password must be different from current password');
+      toast.error('New password must be different from current password');
       return;
     }
 
@@ -142,16 +149,20 @@ export default function ProviderProfile() {
       const response = await updateProvider(providerId, passwordForm);
       if (response.message === "Incorrect Password") {
         setPasswordError('Current password is incorrect.');
+        toast.error('Current password is incorrect.');
         return;
       }
       setPasswordSuccess('Password updated successfully.');
+      toast.success('Password updated successfully.');
       setPasswordForm({
         oldPassword: '',
         newPassword: '',
         confirmPassword: ''
       });
+      closePasswordModal();
     } catch (err) {
       setPasswordError('Failed to update password.');
+      toast.error('Failed to update password.');
     }
   };
 
@@ -189,6 +200,28 @@ export default function ProviderProfile() {
                 className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Profile Image URL</label>
+            <input
+              name="image"
+              type="url"
+              value={form.image || ''}
+              onChange={handleFormChange}
+              className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              placeholder="https://example.com/image.jpg"
+            />
+            {form.image && (
+              <div className="mt-2">
+                <img
+                  src={form.image}
+                  alt="Profile Preview"
+                  className="w-32 h-32 object-cover rounded-xl border shadow"
+                  onError={e => { e.target.style.display = 'none'; }}
+                />
+              </div>
+            )}
           </div>
 
           <div>

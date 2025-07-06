@@ -9,7 +9,8 @@ const insurancePlans = [
   { name: 'Cigna', logo: 'insurance-logos/cigna.svg' },
   { name: 'UnitedHealthcare', logo: 'insurance-logos/unitedhealthcare.svg' },
   {name: "Oxford Health Plans", logo: 'insurance-logos/oxford.svg'},
-  {name: "Oscar Health Inurance", logo: 'insurance-logos/oscar.svg'}
+  {name: "Oscar Health Inurance", logo: 'insurance-logos/oscar.svg'},
+  { name: 'Blue Cross Blue Shield of Illinois', logo: 'insurance-logos/bcbs.svg' },
 ];
 
 export default function Insurance() {
@@ -22,7 +23,7 @@ export default function Insurance() {
           subtitle="We accept a variety of insurance plans."
         />
         <motion.section
-          className="py-20 bg-white min-h-[60vh]"
+          className="pb-20 bg-white min-h-[60vh]"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
@@ -48,7 +49,7 @@ export default function Insurance() {
               <span>Please bring your insurance card to your first appointment.</span>
             </div>
           </div>
-          <div className="max-w-2xl mx-auto bg-gray-50 rounded-2xl shadow p-6 mb-8">
+          <div className="max-w-2xl mx-auto bg-gray-50 rounded-2xl shadow p-6 mb-8 mx-3">
             <div className="flex items-center gap-2 mb-2">
               <Info className="w-6 h-6 text-primary" />
               <h2 className="text-lg font-bold text-primary">Self-Pay Options</h2>

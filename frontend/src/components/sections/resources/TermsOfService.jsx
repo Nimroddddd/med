@@ -11,7 +11,7 @@ export default function TermsOfService() {
         subtitle="Please review the terms and conditions for using our services."
       />
       <motion.section
-        className="py-20 bg-white min-h-screen"
+        className="sm:pt-10 pb-20 bg-white min-h-screen"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}

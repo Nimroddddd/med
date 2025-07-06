@@ -26,6 +26,7 @@ import Blog from './components/sections/resources/Blog'
 import PrivacyPolicy from './components/sections/resources/PrivacyPolicy'
 import TermsOfService from './components/sections/resources/TermsOfService'
 import HIPAA from './components/sections/resources/HIPAA'
+import { Toaster } from 'react-hot-toast'
 
 function AppContent() {
   const location = useLocation();
@@ -54,7 +55,7 @@ function AppContent() {
             <Route path="/pay-online" element={<PayOnline />} />
             <Route path="/news" element={<News />} />
             <Route path="/guides-tips" element={<GuidesTips />} />
-            <Route path="/blog" element={<Blog />} />
+            {/* <Route path="/blog" element={<Blog />} /> */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/hipaa-notice" element={<HIPAA />} />
@@ -70,6 +71,7 @@ function AppContent() {
 function App() {
   return (
     <Router>
+      <Toaster position="top-center" toastOptions={{ duration: 3500 }} />
       <AppContent />
     </Router>
   )

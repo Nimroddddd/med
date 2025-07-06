@@ -11,7 +11,7 @@ export default function HIPAA() {
           subtitle="Understand your rights and our responsibilities under HIPAA."
         />
       <motion.section
-        className="py-20 bg-white min-h-screen"
+        className="sm:pt-10 pb-20 bg-white min-h-screen"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
@@ -44,7 +44,7 @@ export default function HIPAA() {
                   <div>
                     <h3 className="text-xl font-medium mb-3 text-gray-800">Payment</h3>
                     <p>
-                      We may use and disclose your health information to obtain payment for services we provide to you. This includes billing your insurance company, Medicare, or other third-party payers.
+                      We may use and disclose your health information to obtain payment for services we provide to you. This includes billing your insurance company, or other third-party payers.
                     </p>
                   </div>
                   <div>
@@ -140,9 +140,8 @@ export default function HIPAA() {
                 <div className="p-4 bg-gray-50 rounded-lg">
                   <p className="font-medium mb-2">To file a complaint with us:</p>
                   <p>Contact our Privacy Officer at:</p>
-                  <p>Email: privacy@mentalhealthpractice.com</p>
-                  <p>Phone: (555) 123-4567</p>
-                  <p>Address: [Your Practice Address]</p>
+                  <p>Email: info@healthwissepw.com</p>
+                  <p>Phone: +1 (708) 953-5459</p>
                 </div>
               </section>
 

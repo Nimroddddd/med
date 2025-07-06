@@ -6,6 +6,7 @@ import {
   deleteProvider,
   setProviderPassword
 } from '../../api/providers';
+import toast from 'react-hot-toast';
 
 export default function ProviderManagement() {
   const [providers, setProviders] = useState([]);
@@ -109,7 +110,7 @@ export default function ProviderManagement() {
 
   // Password management
   const openPasswordModal = (provider) => {
-    setPasswordProvider(provider);
+    setPasswordProvider(provider)
     setPassword('');
     setPasswordError('');
     setPasswordSuccess('');
@@ -128,15 +129,18 @@ export default function ProviderManagement() {
     e.preventDefault();
     if (!password) {
       setPasswordError('Password cannot be empty');
+      toast.error('Password cannot be empty');
       return;
     }
     setPasswordError('');
     setPasswordSuccess('');
     try {
-      await setProviderPassword(passwordProvider.id, { password });
-      setPasswordSuccess('Password updated successfully.');
+      await setProviderPassword(passwordProvider.id, password );
+      toast.success('Password updated successfully.');
+      closePasswordModal();
     } catch (err) {
       setPasswordError('Failed to update password.');
+      toast.error('Failed to update password.');
     }
   };
 
@@ -159,7 +163,7 @@ export default function ProviderManagement() {
             </tr>
           </thead>
           <tbody>
-            {providers.map(p => (
+            {providers.filter(p => p.user?.role !== "superadmin").map(p => (
               <tr key={p.id} className="border-b last:border-b-0">
                 <td className="px-4 py-2 font-medium">{p.name}</td>
                 <td className="px-4 py-2">{p.email}</td>
@@ -176,7 +180,7 @@ export default function ProviderManagement() {
 
       {/* Mobile Card View */}
       <div className="lg:hidden space-y-4 mb-6">
-        {providers.map(p => (
+        {providers.filter(p => p.user?.role !== "superadmin").map(p => (
           <div key={p.id} className="bg-white rounded-lg shadow p-4">
             <div className="flex justify-between items-start mb-3">
               <div className="flex-1">

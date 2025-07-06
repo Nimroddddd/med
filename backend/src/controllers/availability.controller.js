@@ -1,5 +1,6 @@
 import models from "../models/index.js";
 import { Op } from "sequelize";
+import formatDate from "../middlewares/FormatDate.js";
 
 const { Availability, Appointment } = models;
 
@@ -9,7 +10,7 @@ const getAvailability = async (req, res) => {
     const availability = await Availability.findAll({ where: { provider_id: providerId } });
     return res.status(200).json(availability);
   } catch (error) {
-    console.log(error.message);
+    console.log(formatDate(Date.now()), error);
     return res.sendStatus(500);
   }
 };
@@ -27,7 +28,7 @@ const setAvailability = async (req, res) => {
     }
     return res.sendStatus(201);
   } catch (error) {
-    console.log(error);
+    console.log(formatDate(Date.now()), error.message);
     return res.sendStatus(500);
   }
 };
@@ -36,6 +37,7 @@ const setAvailability = async (req, res) => {
 const getAvailableSlots = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
+    console.log(startDate, endDate, "here")
     if (!startDate || !endDate) {
       return res.status(400).json({ 
         message: 'startDate and endDate are required' 
@@ -55,13 +57,9 @@ const getAvailableSlots = async (req, res) => {
       attributes: ['date', 'time']
     });
 
-    console.log('Found appointments:', appointments.map(a => ({ date: a.date, time: a.time })));
-
     // 3. Convert day availability to date availability
     const dateAvailability = convertDayToDateAvailability(dayAvailability, startDate, endDate);
-    
-    console.log('Date availability before removing booked slots:', dateAvailability);
-    
+        
     // 4. Remove booked slots
     const availableSlots = removeBookedSlots(dateAvailability, appointments);
     
@@ -69,7 +67,7 @@ const getAvailableSlots = async (req, res) => {
     
     return res.status(200).json(availableSlots);
   } catch (error) {
-    console.log(error);
+    console.log(formatDate(Date.now()), error);
     return res.sendStatus(500);
   }
 };
@@ -80,6 +78,10 @@ const convertDayToDateAvailability = (dayAvailability, startDate, endDate) => {
   
   // Day mapping: 0=Sunday, 1=Monday, ..., 6=Saturday
   const dayMapping = {
+    'sunday': 0,
+    'monday': 1,
+    'tuesday': 2,
+    'wednesday': 3,
     'thursday': 4,
     'friday': 5,
     'saturday': 6
@@ -93,19 +95,27 @@ const convertDayToDateAvailability = (dayAvailability, startDate, endDate) => {
     const dayOfWeek = date.getDay();
     const dateStr = date.toISOString().split('T')[0];
     
-    // Find which day of the week this date corresponds to
-    const availableDay = dayAvailability.find(availability => 
+    // Find all availabilities for this day of the week
+    const availableDays = dayAvailability.filter(availability => 
       dayMapping[availability.day] === dayOfWeek
     );
     
-    if (availableDay && availableDay.time_slots) {
-      dateAvailability[dateStr] = availableDay.time_slots;
+    // Merge all time slots for this day (remove duplicates)
+    let mergedSlots = [];
+    availableDays.forEach(avail => {
+      if (Array.isArray(avail.time_slots)) {
+        mergedSlots = mergedSlots.concat(avail.time_slots);
+      }
+    });
+    mergedSlots = [...new Set(mergedSlots)]; // Remove duplicates
+    
+    if (mergedSlots.length > 0) {
+      dateAvailability[dateStr] = mergedSlots;
     }
   }
   return dateAvailability;
 };
 
-// Helper function: Remove booked slots from available slots
 // Helper function: Remove booked slots from available slots
 const removeBookedSlots = (dateAvailability, appointments) => {
   const availableSlots = { ...dateAvailability };
@@ -126,9 +136,7 @@ const removeBookedSlots = (dateAvailability, appointments) => {
     }
     bookedSlotsByDate[date].push(time);
   });
-  
-  console.log('Booked slots by date:', bookedSlotsByDate);
-  
+    
   // Remove booked slots from available slots
   Object.keys(availableSlots).forEach(date => {
     if (bookedSlotsByDate[date]) {
@@ -151,7 +159,6 @@ const removeBookedSlots = (dateAvailability, appointments) => {
   Object.keys(availableSlots).forEach(date => {
     if (availableSlots[date].length === 0) {
       delete availableSlots[date];
-      console.log(`Removed date ${date} - no available slots`);
     }
   });
   

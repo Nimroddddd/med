@@ -6,6 +6,7 @@ import ClientsSection from './ClientsSection';
 
 const ProviderManagement = lazy(() => import('./ProviderManagement'));
 const ProviderProfile = lazy(() => import('./ProviderProfile'));
+const TestimonialsManagement = lazy(() => import('./TestimonialsManagement'));
 
 export default function OwnerPortalApp() {
   // role is passed from AuthGate as a function child
@@ -26,7 +27,7 @@ function OwnerPortalContent({ role }) {
     appointments: <AppointmentsSection />,
     clients: <ClientsSection />,
     profile: <ProviderProfile />,
-    ...(isSuperAdmin ? { providers: <ProviderManagement /> } : {}),
+    ...(isSuperAdmin ? { providers: <ProviderManagement />, testimonials: <TestimonialsManagement /> } : {}),
   };
 
   const sectionLabels = {
@@ -35,6 +36,7 @@ function OwnerPortalContent({ role }) {
     clients: 'Client Info',
     profile: 'My Profile',
     providers: 'Manage Providers',
+    testimonials: 'Manage Testimonials',
   };
 
   function LogoutButton() {

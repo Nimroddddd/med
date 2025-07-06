@@ -4,40 +4,45 @@ import Banner from '../../ui/Banner';
 import PageTransition from '../../PageTransition';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, A11y } from 'swiper/modules';
+import { Star } from 'lucide-react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { fetchTestimonials, submitTestimonial } from '../../../api/testimonials';
+import { fetchHomeTestimonials, submitTestimonial } from '../../../api/testimonials';
 
 const placeholderTestimonials = [
-  {
-    name: 'Jane D.',  
-    feedback: 'The team at Healthwise Psychiatry & Wellness truly cares. I felt heard and supported every step of the way.',
-  },
-  {
-    name: 'Michael S.',
-    feedback: 'Booking was easy and the provider was very knowledgeable. Highly recommend!',
-  },
-  {
-    name: 'Ava R.',
-    feedback: 'I appreciate the compassion and professionalism. My mental health has improved so much.',
-  },
-  { 
-    name: 'Chris P.',
-    feedback: 'The virtual appointments made it so convenient for my busy schedule.',
-  },
+  // {
+  //   name: 'Jane D.',  
+  //   feedback: 'The team at Healthwise Psychiatry & Wellness truly cares. I felt heard and supported every step of the way.',
+  //   stars: 5,
+  // },
+  // {
+  //   name: 'Michael S.',
+  //   feedback: 'Booking was easy and the provider was very knowledgeable. Highly recommend!',
+  //   stars: 4,
+  // },
+  // {
+  //   name: 'Ava R.',
+  //   feedback: 'I appreciate the compassion and professionalism. My mental health has improved so much.',
+  //   stars: 5,
+  // },
+  // { 
+  //   name: 'Chris P.',
+  //   feedback: 'The virtual appointments made it so convenient for my busy schedule.',
+  //   stars: 4,
+  // },
 ];
 
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState(placeholderTestimonials);
-  const [form, setForm] = useState({ name: '', feedback: '' });
+  const [form, setForm] = useState({ name: '', feedback: '', stars: 5 });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchTestimonials()
+    fetchHomeTestimonials()
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setTestimonials(data);
@@ -51,13 +56,17 @@ export default function Testimonials() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleStarClick = (star) => {
+    setForm({ ...form, stars: star });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const newTestimonial = await submitTestimonial({ name: form.name || 'Anonymous', feedback: form.feedback });
+      const newTestimonial = await submitTestimonial({ name: form.name || 'Anonymous', feedback: form.feedback, stars: form.stars });
       setTestimonials([newTestimonial, ...testimonials]);
-      setForm({ name: '', feedback: '' });
+      setForm({ name: '', feedback: '', stars: 5 });
       setShowModal(false);
       setSuccess('Thank you for your feedback!');
       setTimeout(() => setSuccess(null), 3000);
@@ -73,7 +82,7 @@ export default function Testimonials() {
       <section>
         <Banner image="office-4.jpg" title="Testimonials" subtitle="Hear from our patients and their experiences." />
         <motion.section
-          className="py-20 bg-white min-h-[60vh] flex flex-col items-center justify-center"
+          className="pt-0 sm:pt-10 pb-20 bg-white min-h-[60vh] flex flex-col items-center justify-center"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
@@ -100,6 +109,11 @@ export default function Testimonials() {
                       <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-3xl mb-2">
                         {t.name.split(' ').map(n => n[0]).join('').slice(0,2)}
                       </div>
+                      <div className="flex items-center mb-2">
+                        {[1,2,3,4,5].map((star) => (
+                          <Star key={star} className={`w-6 h-6 ${star <= (t.stars || 5) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} fill={star <= (t.stars || 5) ? 'currentColor' : 'none'} />
+                        ))}
+                      </div>
                       <p className="text-xl text-gray-800 italic mb-4">“{t.feedback}”</p>
                       <span className="text-primary font-semibold text-lg">{t.name}</span>
                     </div>
@@ -108,14 +122,13 @@ export default function Testimonials() {
               </Swiper>
             )}
             <div className="mt-8">
-              <p className="text-gray-700 text-base mb-4">We truly value your input and would love to know how your experience with us has been. Your honest feedback, good or bad, plays an important role in helping us improve and better serve our patients. If you have a moment, please share your experience with us.</p>
+              <p className="text-gray-700 text-base mb-4 px-3">We truly value your input and would love to know how your experience with us has been. Your honest feedback, good or bad, plays an important role in helping us improve and better serve our patients. If you have a moment, please share your experience with us.</p>
               <button
                 onClick={() => setShowModal(true)}
                 className="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-secondary transition-colors shadow"
               >
                 Leave a Review
               </button>
-              {success && <div className="text-green-600 mt-4">{success}</div>}
             </div>
           </div>
 
@@ -155,6 +168,22 @@ export default function Testimonials() {
                       required
                     />
                   </div>
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-1">Your Rating</label>
+                    <div className="flex items-center gap-1">
+                      {[1,2,3,4,5].map((star) => (
+                        <button
+                          type="button"
+                          key={star}
+                          onClick={() => handleStarClick(star)}
+                          className="focus:outline-none"
+                          aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
+                        >
+                          <Star className={`w-7 h-7 ${star <= form.stars ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} fill={star <= form.stars ? 'currentColor' : 'none'} />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                   <button
                     type="submit"
                     className="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-secondary transition-colors"
@@ -163,6 +192,28 @@ export default function Testimonials() {
                     {submitting ? 'Submitting...' : 'Submit Review'}
                   </button>
                 </form>
+              </div>
+            </div>
+          )}
+          {/* Success Modal */}
+          {success && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+              <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full relative animate-fadeIn">
+                <button
+                  onClick={() => setSuccess(null)}
+                  className="absolute top-3 right-3 text-gray-400 hover:text-primary text-2xl font-bold"
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+                <h2 className="text-2xl font-bold text-primary mb-4">Thank You!</h2>
+                <p className="text-gray-700 mb-4">{success}</p>
+                <button
+                  onClick={() => setSuccess(null)}
+                  className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-secondary transition-colors"
+                >
+                  Close
+                </button>
               </div>
             </div>
           )}

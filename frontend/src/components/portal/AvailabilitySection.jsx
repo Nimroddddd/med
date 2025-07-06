@@ -7,7 +7,7 @@ const DAYS = [
   { key: 'saturday', label: 'Saturday', dayNum: 6 },
 ];
 
-const TIME_SLOTS = Array.from({ length: 10 }, (_, i) => {
+const TIME_SLOTS = Array.from({ length: 11 }, (_, i) => {
   const hour = 7 + i;
   const ampm = hour < 12 ? 'AM' : 'PM';
   const displayHour = hour % 12 === 0 ? 12 : hour % 12;
@@ -20,7 +20,7 @@ const TIME_SLOTS = Array.from({ length: 10 }, (_, i) => {
 export default function AvailabilitySection() {
   // Get providerId from logged-in user
   const user = JSON.parse(localStorage.getItem('portal_authed_user'));
-  const providerId = user?.id;
+  const providerId = user?.provider?.id;
 
   const [availability, setAvailabilityState] = useState({});
   const [editing, setEditing] = useState(false);
@@ -90,7 +90,6 @@ export default function AvailabilitySection() {
     setError(null);
     try {
       await setAvailability(providerId, draft);
-      console.log(draft)
       setAvailabilityState(draft);
       setEditing(false);
     } catch (err) {

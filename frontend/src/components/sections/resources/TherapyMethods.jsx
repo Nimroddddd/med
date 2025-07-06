@@ -78,7 +78,7 @@ export default function TherapyMethods() {
       <section>
         <Banner image="office-2.jpg" title="Therapy Methods" subtitle="Explore the different therapy approaches we offer." />
         <motion.section
-          className="py-20 bg-white min-h-[60vh]"
+          className="py-10 bg-white min-h-[60vh]"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
@@ -89,11 +89,11 @@ export default function TherapyMethods() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <p className="text-gray-700 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-700 text-lg max-w-2xl mx-auto px-2">
               We offer a variety of evidence-based therapy methods to support your mental health and personal growth. Explore some of the approaches we use below.
             </p>
           </motion.div>
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-3">
             {therapies.map((therapy, idx) => (
               <motion.div
                 key={therapy.title}

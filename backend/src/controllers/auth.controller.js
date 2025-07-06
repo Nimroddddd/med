@@ -1,7 +1,8 @@
 import models from "../models/index.js"
 import bcrypt from "bcrypt"
+import formatDate from "../middlewares/FormatDate.js"
 
-const { User } = models
+const { User, Provider } = models
 
 const register = async (req, res) => {
   const { name, email, password, role } = req.body
@@ -17,7 +18,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body
-    const user = await User.findOne({ where: { email }})
+    const user = await User.findOne({ where: { email }, include: { model: Provider, as: "provider" }})
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" })
     }
@@ -27,8 +28,8 @@ const login = async (req, res) => {
     }
     return res.status(200).json({ messsage: "Login Successful", user})
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal Server Error."})
+    console.log(formatDate(Date.now()), error)
+    return res.sendStatus(500)
   }
 }
 

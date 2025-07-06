@@ -28,7 +28,7 @@ export default function Forms() {
       <section>
         <Banner image="office.jpg" title="Forms" subtitle="Access important forms for your care and appointments." />
         <motion.section
-          className="py-20 bg-white min-h-[60vh]"
+          className="pt-0 sm:pt-10 pb-20 bg-white min-h-[60vh]"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
@@ -39,7 +39,7 @@ export default function Forms() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <p className="text-gray-700 text-lg mb-4">
+            <p className="text-gray-700 text-lg mb-4 px-3">
               <strong>Initial Consultation</strong><br />
               As a courtesy reminder, please complete and submit your new patient documentation at least 24 hours before your scheduled consultation.
             </p>
@@ -48,20 +48,20 @@ export default function Forms() {
               <Mail className="w-5 h-5" />
               <span>Email completed forms to <a href="mailto:info@healthwisepw.com" className="underline">info@healthwisepw.com</a></span>
             </div>
-            <div className="bg-primary/5 rounded-lg p-4 text-left text-gray-700 text-base mb-4">
+            <div className="bg-primary/5 rounded-lg p-4 text-left text-gray-700 text-base mb-4 mx-3">
               <strong>How to save and send your completed form:</strong>
               <ol className="list-decimal list-inside mt-2 space-y-1">
                 <li>Click on the desired form link below.</li>
                 <li>Fill out the information in the form.</li>
                 <li>Select the printer icon in the upper right-hand corner.</li>
                 <li>Select 'Save as PDF' from the printer selection drop-down.</li>
-                <li>Once your file is saved, email it to <a href="mailto:info@haelthwisepw.com" className="underline">info@healthwisepw.com</a>.</li>
+                <li>Once your file is saved, email it to <a href="mailto:info@healthwisepw.com" className="underline">info@healthwisepw.com</a>.</li>
               </ol>
             </div>
           </motion.div>
           <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div
-              className="bg-gray-50 rounded-2xl shadow p-6"
+              className="bg-gray-50 rounded-2xl shadow p-6 mx-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
@@ -77,7 +77,7 @@ export default function Forms() {
               </ul>
             </motion.div>
             <motion.div
-              className="bg-gray-50 rounded-2xl shadow p-6"
+              className="bg-gray-50 rounded-2xl shadow p-6 mx-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}

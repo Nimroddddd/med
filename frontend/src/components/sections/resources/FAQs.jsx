@@ -15,7 +15,7 @@ export default function FAQs() {
         subtitle="Find answers to common questions about our services."
       />
       <motion.section
-        className="py-20 bg-white min-h-[60vh]"
+        className="pt-0 sm:pt-10 pb-20 bg-white min-h-[60vh]"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
@@ -29,7 +29,7 @@ export default function FAQs() {
         >
           <p className="text-gray-700 text-lg">Click a question below to expand and see the answer.</p>
         </motion.div>
-        <div className="max-w-4xl mx-auto space-y-4">
+        <div className="max-w-4xl mx-auto space-y-4 px-3">
           {faqs.map((faq, idx) => (
             <motion.div
               key={faq.question}

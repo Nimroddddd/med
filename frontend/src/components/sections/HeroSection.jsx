@@ -127,7 +127,7 @@ const HeroSection = () => {
         </Link>
       </div> */}
       {/* Why Choose Us Section */}
-      <section className="mt-14 w-full relative py-16 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="mt-4 w-full relative py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-10 drop-shadow-lg">Why Healthwise?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

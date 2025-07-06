@@ -35,7 +35,7 @@ const AboutSection = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Mission Statement</h2>
+            <h2 className="text-4xl font-bold text-primary mb-4">Mission Statement</h2>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -13,7 +13,7 @@ export const faqs = [
                   and generally do not have the authority to prescribe medications. They 
                   are trained in various therapeutic approaches, such as cognitive behavioral 
                   therapy, hypnosis, and others. For more information on different treatment 
-                  approaches, refer to the <span><Link href="/therapy-methods" className="text-blue-600 hover:text-blue-800 underline">
+                  approaches, refer to the <span><Link to="/therapy-methods" className="text-blue-600 hover:text-blue-800 underline">
                   Treatments Section,</Link></span> and explore our Therapists section to find someone who suits your needs.
                   Research shows that the most effective mental health care often involves a combination 
                   of medication and psychotherapy.</p>
@@ -26,7 +26,7 @@ export const faqs = [
   {
     question: 'Do you accept insurance?',
     answer: (<>
-              <p>Healthwise works with most private insurance providers as well as Medicare. 
+              <p>Healthwise works with most private insurance providers. 
               We suggest reviewing your insurance benefits before your initial appointment so you’re 
               aware of your co-pay, deductible, any required pre-authorizations, and the number of 
               covered visits. For more details, feel free to reach out through

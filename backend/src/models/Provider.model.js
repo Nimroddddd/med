@@ -8,7 +8,7 @@ const Provider = sequelize.define("Provider", {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   education: {
     type: DataTypes.ARRAY(DataTypes.STRING),
@@ -19,7 +19,7 @@ const Provider = sequelize.define("Provider", {
     allowNull: true
   },
   bio: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(1000),
     allowNull: true
   },
   specialties: {
@@ -33,6 +33,9 @@ const Provider = sequelize.define("Provider", {
   image: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  link_id: {
+    type: DataTypes.STRING,
   }
 }, {
   tableName: "providers",

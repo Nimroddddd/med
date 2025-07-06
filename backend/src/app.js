@@ -9,7 +9,6 @@ import contactRoutes from "./routes/contact.routes.js"
 import testimonialRoutes from "./routes/testimonials.routes.js"
 import newsLetterRoutes from "./routes/newsletter.routes.js"
 
-
 const port = process.env.PORT
 const app = express()
 
@@ -32,9 +31,5 @@ app.use("/clients", clientRoutes)
 app.use("/contact", contactRoutes)
 app.use("/testimonials", testimonialRoutes)
 app.use("/newsletter", newsLetterRoutes)
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
-})
 
 export default app;

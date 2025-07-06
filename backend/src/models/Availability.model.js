@@ -2,10 +2,6 @@ import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
 const Availability = sequelize.define("Availability", {
-  provider_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
   day: {
     type: DataTypes.ENUM("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"),
     allowNull: false

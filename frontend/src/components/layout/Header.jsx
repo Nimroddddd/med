@@ -13,7 +13,7 @@ const resourcesDropdown = [
   { name: 'Pay Online', href: '/pay-online' },
   { name: 'News & Updates', href: '/news' },
   { name: 'Guides & Tips', href: '/guides-tips' },
-  { name: 'Blog', href: '/blog' },
+  // { name: 'Blog', href: '/blog' },
 ];
 
 const navItems = [
@@ -51,7 +51,7 @@ const Header = () => {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 bg-white backdrop-blur-sm border-b border-gray-100 shadow-lg"
     >
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/">
