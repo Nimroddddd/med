@@ -7,11 +7,11 @@ const resourcesDropdown = [
   { name: 'Therapy Approaches', href: '/therapy-methods' },
   { name: 'Mental Health Conditions', href: '/mental-health-conditions' },
   { name: 'FAQs', href: '/faqs' },
-  { name: 'Patient Forms', href: '/forms' },
+  // { name: 'Patient Forms', href: '/forms' },
   { name: 'Insurance Info', href: '/insurance' },
   { name: 'Testimonials', href: '/testimonials' },
   { name: 'Pay Online', href: '/pay-online' },
-  { name: 'News & Updates', href: '/news' },
+  // { name: 'News & Updates', href: '/news' },
   { name: 'Guides & Tips', href: '/guides-tips' },
   // { name: 'Blog', href: '/blog' },
 ];

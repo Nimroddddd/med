@@ -1,8 +1,76 @@
 import models from "../models/index.js"
 import formatDate from "../middlewares/FormatDate.js"
-import { sendContactMail, sendAppointmentNotificationMail, sendAppointmentConfirmationMail } from "../utils/sendMail.js"
+import { sendContactMail, sendAppointmentNotificationMail, sendAppointmentConfirmationMail, sendAppointmentCancellationMail, sendAppointmentRejectionMail } from "../utils/sendMail.js"
+import GoogleCalendarService from "../services/googleCalendar.service.js"
 
-const { Appointment, Client } = models
+const { Appointment, Client, Provider } = models
+const googleCalendarService = new GoogleCalendarService()
+
+// Helper function to sync appointment with Google Calendar
+const syncWithGoogleCalendar = async (appointment, action, providerId = null) => {
+  try {
+    // If no providerId specified, try to find one (you might need to adjust this logic)
+    if (!providerId) {
+      // For now, we'll use the first available provider
+      // You might want to modify this based on your business logic
+      const provider = await Provider.findOne({ where: { google_calendar_connected: true } });
+      if (!provider) return; // No connected providers
+      providerId = provider.id;
+    }
+
+    const provider = await Provider.findByPk(providerId);
+    if (!provider || !provider.google_calendar_connected) return;
+
+    // Check if token is expired and refresh if needed
+    let accessToken = provider.google_calendar_access_token;
+    
+    if (provider.google_calendar_expiry && new Date() > provider.google_calendar_expiry) {
+      const newTokens = await googleCalendarService.refreshAccessToken(provider.google_calendar_refresh_token);
+      
+      await provider.update({
+        google_calendar_access_token: newTokens.access_token,
+        google_calendar_expiry: newTokens.expiry_date ? new Date(newTokens.expiry_date) : null
+      });
+      
+      accessToken = newTokens.access_token;
+    }
+
+    const client = await Client.findByPk(appointment.client_id);
+    const appointmentData = {
+      client_name: client.name,
+      date: appointment.date,
+      time: appointment.time,
+      phone: appointment.phone || client.phone,
+      email: appointment.email || client.email,
+      message: appointment.message || ''
+    };
+
+    switch (action) {
+      case 'create':
+        if (!appointment.google_calendar_event_id) {
+          const eventResult = await googleCalendarService.createEvent(providerId, appointmentData, accessToken);
+          await appointment.update({ google_calendar_event_id: eventResult.eventId });
+        }
+        break;
+      
+      case 'update':
+        if (appointment.google_calendar_event_id) {
+          await googleCalendarService.updateEvent(providerId, appointmentData, appointment.google_calendar_event_id, accessToken);
+        }
+        break;
+      
+      case 'delete':
+        if (appointment.google_calendar_event_id) {
+          await googleCalendarService.deleteEvent(providerId, appointment.google_calendar_event_id, accessToken);
+          await appointment.update({ google_calendar_event_id: null });
+        }
+        break;
+    }
+  } catch (error) {
+    console.error('Google Calendar sync error:', error);
+    // Don't fail the main operation if Google Calendar sync fails
+  }
+};
 
 const getAllAppointments = async (req, res) => {
   try {
@@ -27,7 +95,7 @@ const getAppointment = async (req, res) => {
 
 const createAppointment = async (req, res) => {
   try {
-    const { date, time, status, email, phone, name } = req.body
+    const { date, time, status, email, phone, name, provider_id } = req.body
     let client
     client = await Client.findOne({ where: {email} })
     if (!client) {
@@ -42,8 +110,13 @@ const createAppointment = async (req, res) => {
       time,
       email,
       phone,
-      client_id: client.id
+      client_id: client.id,
+      provider_id: provider_id || null
     })
+    
+    // Sync with Google Calendar
+    await syncWithGoogleCalendar(appointment, 'create', provider_id);
+    
     // Send notification email to admin
     try {
       await sendAppointmentNotificationMail({
@@ -71,6 +144,10 @@ const updateAppointment = async (req, res) => {
     const appointment = await Appointment.findByPk(req.params.id)
     appointment.status = status
     await appointment.save()
+    
+    // Sync with Google Calendar
+    await syncWithGoogleCalendar(appointment, 'update', appointment.provider_id);
+    
     // Send confirmation email if status is confirmed
     if (status === 'confirmed') {
       try {
@@ -84,6 +161,36 @@ const updateAppointment = async (req, res) => {
         console.log(formatDate(Date.now()), 'Failed to send confirmation email:', mailError)
       }
     }
+    // Send cancellation email if status is canceled
+    if (status === 'canceled') {
+      try {
+        await sendAppointmentCancellationMail({
+          name: appointment.name || 'Valued Client',
+          email: appointment.email,
+          date: appointment.date,
+          time: appointment.time,
+          reason: req.body.reason,
+          additionalNotes: req.body.additionalNotes
+        });
+      } catch (mailError) {
+        console.log(formatDate(Date.now()), 'Failed to send cancellation email:', mailError)
+      }
+    }
+    // Send rejection email if status is rejected
+    if (status === 'rejected') {
+      try {
+        await sendAppointmentRejectionMail({
+          name: appointment.name || 'Valued Client',
+          email: appointment.email,
+          date: appointment.date,
+          time: appointment.time,
+          reason: req.body.reason,
+          additionalNotes: req.body.additionalNotes
+        });
+      } catch (mailError) {
+        console.log(formatDate(Date.now()), 'Failed to send rejection email:', mailError)
+      }
+    }
     return res.status(201).json({ message: "Appointment status has been updated" })
   } catch (error) {
     console.log(formatDate(Date.now()), error)
@@ -93,7 +200,11 @@ const updateAppointment = async (req, res) => {
 
 const deleteAppointment = async (req, res) => {
   try {
-    const appointment = Appointment.findByPk(req.params.id)
+    const appointment = await Appointment.findByPk(req.params.id)
+    
+    // Sync with Google Calendar before deletion
+    await syncWithGoogleCalendar(appointment, 'delete', appointment.provider_id);
+    
     await appointment.destroy()
     return res.sendStatus(204)
   } catch (error) {

@@ -36,6 +36,27 @@ const Provider = sequelize.define("Provider", {
   },
   link_id: {
     type: DataTypes.STRING,
+  },
+  // Google Calendar integration fields
+  google_calendar_id: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  google_calendar_access_token: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  google_calendar_refresh_token: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  google_calendar_expiry: {
+    type: DataTypes.DATE,
+    allowNull: true
+  },
+  google_calendar_connected: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 }, {
   tableName: "providers",

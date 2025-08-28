@@ -1,5 +1,6 @@
 import express, { urlencoded } from "express"
 import cors from "cors"
+import pg from "pg"
 import authRoutes from "./routes/auth.routes.js";
 import providerRoutes from "./routes/providers.routes.js"
 import availabilityRoutes from "./routes/availability.routes.js"

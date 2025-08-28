@@ -57,6 +57,10 @@ const getAvailableSlots = async (req, res) => {
       attributes: ['date', 'time']
     });
 
+    console.log('Backend received startDate:', startDate);
+    console.log('Backend received endDate:', endDate);
+    console.log('Backend dayAvailability:', dayAvailability);
+    
     // 3. Convert day availability to date availability
     const dateAvailability = convertDayToDateAvailability(dayAvailability, startDate, endDate);
         
@@ -87,13 +91,20 @@ const convertDayToDateAvailability = (dayAvailability, startDate, endDate) => {
     'saturday': 6
   };
   
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+  // Treat incoming dates as UTC dates (add Z to ensure UTC interpretation)
+  const start = new Date(startDate + 'T00:00:00Z');
+  const end = new Date(endDate + 'T00:00:00Z');
+  
+  console.log('Backend start date object:', start);
+  console.log('Backend end date object:', end);
+  console.log('Backend start.toISOString():', start.toISOString());
+  console.log('Backend end.toISOString():', end.toISOString());
   
   // Iterate through each date in the range
   for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
     const dayOfWeek = date.getDay();
     const dateStr = date.toISOString().split('T')[0];
+    console.log(`Processing date: ${dateStr}, dayOfWeek: ${dayOfWeek} (0=Sunday, 4=Thursday)`);
     
     // Find all availabilities for this day of the week
     const availableDays = dayAvailability.filter(availability => 

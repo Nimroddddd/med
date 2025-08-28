@@ -29,6 +29,11 @@ const Appointment = sequelize.define("Appointment", {
   phone: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  // Google Calendar integration
+  google_calendar_event_id: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   tableName: "appointments"

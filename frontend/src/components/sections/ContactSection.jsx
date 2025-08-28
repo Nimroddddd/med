@@ -67,9 +67,9 @@ const ContactSection = () => {
   ];
 
   const officeHours = [
-    { day: "Thursday", hours: "7:00 AM - 5:00 PM" },
-    { day: "Friday", hours: "7:00 AM - 5:00 PM" },
-    { day: "Saturday", hours: "7:00 AM - 5:00 PM" }
+    { day: "Thursday", hours: "9:00 AM - 5:00 PM" },
+    { day: "Friday", hours: "9:00 AM - 5:00 PM" },
+    { day: "Saturday", hours: "9:00 AM - 5:00 PM" }
   ];
 
   return (

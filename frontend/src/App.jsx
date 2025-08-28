@@ -49,11 +49,11 @@ function AppContent() {
             <Route path="/therapy-methods" element={<TherapyMethods />} />
             <Route path="/mental-health-conditions" element={<MentalHealthConditions />} />
             <Route path="/faqs" element={<FAQs />} />
-            <Route path="/forms" element={<Forms />} />
+            {/* <Route path="/forms" element={<Forms />} /> */}
             <Route path="/insurance" element={<Insurance />} />
             <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/pay-online" element={<PayOnline />} />
-            <Route path="/news" element={<News />} />
+            {/* <Route path="/news" element={<News />} /> */}
             <Route path="/guides-tips" element={<GuidesTips />} />
             {/* <Route path="/blog" element={<Blog />} /> */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

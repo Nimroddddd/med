@@ -47,15 +47,27 @@ const BookingSection = () => {
         const endDateStr = endDate.toISOString().split('T')[0];
         
         console.log('Frontend requesting dates:', { startDateStr, endDateStr });
+        console.log('Frontend startDate object:', startDate);
+        console.log('Frontend endDate object:', endDate);
+        console.log('Frontend startDate.toISOString():', startDate.toISOString());
+        console.log('Frontend endDate.toISOString():', endDate.toISOString());
         
         const data = await getAvailableSlots(startDateStr, endDateStr);
         console.log('Backend returned data:', data);
         console.log('Backend available dates:', Object.keys(data));
         
+        // Log each date conversion
+        const dates = Object.keys(data).map(dateStr => {
+          const dateObj = new Date(dateStr + 'T00:00:00Z');
+          console.log(`Date string "${dateStr}" + 'T00:00:00Z' -> Date object:`, dateObj);
+          console.log(`Date string "${dateStr}" + 'T00:00:00Z' -> toLocaleDateString():`, dateObj.toLocaleDateString());
+          console.log(`Date string "${dateStr}" + 'T00:00:00Z' -> getDay():`, dateObj.getDay(), '(0=Sunday, 4=Thursday)');
+          return dateObj;
+        });
+        
         setAvailableSlots(data);
         console.log(data)
         // Convert backend dates to Date objects for the dropdown
-        const dates = Object.keys(data).map(dateStr => new Date(dateStr));
         dates.sort((a, b) => a - b); // Sort chronologically
         setAvailableDates(dates);
         
@@ -211,20 +223,25 @@ const BookingSection = () => {
                     <label className="block text-gray-700 font-medium mb-1">Select Date</label>
                     <select value={selectedDate} onChange={handleDateChange} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" required>
                       <option value="" disabled>Select a date</option>
-                      {availableDates.map(date => {
-                        const dateStr = date.toISOString().slice(0, 10);
+                      {Object.keys(availableSlots).map(dateStr => {
                         const availableTimes = getAvailableTimesForDate(dateStr);
                         const hasAvailability = availableTimes.length > 0;
-                        // Convert to local date for display
-                        const utcDate = new Date(`${dateStr}T00:00:00Z`);
-                        const displayDate = utcDate.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+                        // Format as UTC day (e.g., Thursday, July 31, 2025)
+                        const [year, month, day] = dateStr.split('-');
+                        const utcDate = new Date(Date.UTC(year, month - 1, day));
+                        const utcLabel = utcDate.toLocaleDateString('en-US', {
+                          weekday: 'long',
+                          month: 'long',
+                          day: 'numeric',
+                          timeZone: 'UTC'
+                        });
                         return (
                           <option 
                             key={dateStr} 
                             value={dateStr}
                             disabled={!hasAvailability}
                           >
-                            {displayDate}
+                            {utcLabel}
                           </option>
                         );
                       })}
@@ -240,17 +257,8 @@ const BookingSection = () => {
                     {TIME_SLOTS.map(slot => {
                       const isAvailable = selectedDate ? isTimeSlotAvailable(selectedDate, slot.value) : false;
                       const isDisabled = !selectedDate || !isAvailable;
-
-                      // Convert to local time for display
-                      let localLabel = slot.label;
-                      if (selectedDate) {
-                        const utcDateTime = new Date(`${selectedDate}T${slot.value}:00Z`);
-                        localLabel = utcDateTime.toLocaleTimeString(undefined, {
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        });
-                      }
-
+                      // Show the slot as entered, no conversion
+                      const localLabel = slot.label;
                       return (
                         <button
                           type="button"
