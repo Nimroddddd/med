@@ -15,10 +15,11 @@ const syncWithGoogleCalendar = async (appointment, action, providerId = null) =>
       // You might want to modify this based on your business logic
       const provider = await Provider.findOne({ where: { google_calendar_connected: true } });
       if (!provider) return; // No connected providers
-      providerId = provider.id;
+      providerId = provider.user_id; // Use user_id for consistency
     }
 
-    const provider = await Provider.findByPk(providerId);
+    // Find provider by user_id (since providerId is actually user_id from frontend)
+    const provider = await Provider.findOne({ where: { user_id: providerId } });
     if (!provider || !provider.google_calendar_connected) return;
 
     // Check if token is expired and refresh if needed
@@ -45,23 +46,24 @@ const syncWithGoogleCalendar = async (appointment, action, providerId = null) =>
       message: appointment.message || ''
     };
 
+    // Use provider.id (actual provider ID) for Google Calendar operations
     switch (action) {
       case 'create':
         if (!appointment.google_calendar_event_id) {
-          const eventResult = await googleCalendarService.createEvent(providerId, appointmentData, accessToken);
+          const eventResult = await googleCalendarService.createEvent(provider.id, appointmentData, accessToken);
           await appointment.update({ google_calendar_event_id: eventResult.eventId });
         }
         break;
       
       case 'update':
         if (appointment.google_calendar_event_id) {
-          await googleCalendarService.updateEvent(providerId, appointmentData, appointment.google_calendar_event_id, accessToken);
+          await googleCalendarService.updateEvent(provider.id, appointmentData, appointment.google_calendar_event_id, accessToken);
         }
         break;
       
       case 'delete':
         if (appointment.google_calendar_event_id) {
-          await googleCalendarService.deleteEvent(providerId, appointment.google_calendar_event_id, accessToken);
+          await googleCalendarService.deleteEvent(provider.id, appointment.google_calendar_event_id, accessToken);
           await appointment.update({ google_calendar_event_id: null });
         }
         break;
@@ -113,10 +115,10 @@ const createAppointment = async (req, res) => {
       client_id: client.id,
       provider_id: provider_id || null
     })
-    
-    // Sync with Google Calendar
-    await syncWithGoogleCalendar(appointment, 'create', provider_id);
-    
+
+    // Note: Google Calendar event will be created when provider accepts the appointment
+    // No longer creating calendar event immediately upon appointment request
+
     // Send notification email to admin
     try {
       await sendAppointmentNotificationMail({
@@ -142,12 +144,24 @@ const updateAppointment = async (req, res) => {
     const { status } = req.body
     console.log(status)
     const appointment = await Appointment.findByPk(req.params.id)
+    const previousStatus = appointment.status
     appointment.status = status
     await appointment.save()
-    
-    // Sync with Google Calendar
-    await syncWithGoogleCalendar(appointment, 'update', appointment.provider_id);
-    
+
+    // Handle Google Calendar integration based on status change
+    if (status === 'confirmed' && previousStatus !== 'confirmed') {
+      // Create Google Calendar event when provider accepts the appointment
+      if (!appointment.google_calendar_event_id) {
+        await syncWithGoogleCalendar(appointment, 'create', appointment.provider_id);
+      }
+    } else if (status === 'canceled' && appointment.google_calendar_event_id) {
+      // Delete Google Calendar event when appointment is canceled
+      await syncWithGoogleCalendar(appointment, 'delete', appointment.provider_id);
+    } else if (status === 'confirmed' && appointment.google_calendar_event_id) {
+      // Update existing Google Calendar event if already exists
+      await syncWithGoogleCalendar(appointment, 'update', appointment.provider_id);
+    }
+
     // Send confirmation email if status is confirmed
     if (status === 'confirmed') {
       try {

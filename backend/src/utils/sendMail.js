@@ -38,7 +38,7 @@ export async function sendContactMail({ name, email, phone, message }) {
 
   await transporter.sendMail({
     from: `"Healthwise Website" <${process.env.SMTP_USER}>`,
-    to: "info@healthwisepw.com",
+    to: process.env.CONTACT_MAIL,
     subject: "New Contact Form Submission",
     html,
   });
@@ -86,7 +86,7 @@ export async function sendAppointmentNotificationMail({ name, email, phone, date
 
   await transporter.sendMail({
     from: `"Healthwise Website" <${process.env.SMTP_USER}>`,
-    to: "info@healthwisepw.com",
+    to: process.env.CONTACT_MAIL,
     subject: "New Appointment Request Submitted",
     html,
   });

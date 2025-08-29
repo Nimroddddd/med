@@ -1,8 +1,11 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import AuthGate from './AuthGate';
 import AvailabilitySection from './AvailabilitySection';
 import AppointmentsSection from './AppointmentsSection';
 import ClientsSection from './ClientsSection';
+import GoogleCalendarIntegration from './GoogleCalendarIntegration';
+import { toast } from 'react-hot-toast';
 
 const ProviderManagement = lazy(() => import('./ProviderManagement'));
 const ProviderProfile = lazy(() => import('./ProviderProfile'));
@@ -18,15 +21,44 @@ export default function OwnerPortalApp() {
 }
 
 function OwnerPortalContent({ role }) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [active, setActive] = useState('availability');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isSuperAdmin = role === 'superadmin';
+
+  // Handle URL parameters for active section
+  useEffect(() => {
+    const activeSection = searchParams.get('active');
+    if (activeSection && sections[activeSection]) {
+      setActive(activeSection);
+    }
+  }, [searchParams]);
+
+  // If returning from Google OAuth, switch to the Google Calendar tab and strip oauth params
+  useEffect(() => {
+    const oauth = searchParams.get('oauth');
+    const status = searchParams.get('status');
+    if (oauth === 'google_calendar' && status) {
+      // Show success toast once here to avoid timing issues with child mount
+      if (!sessionStorage.getItem('oauth_google_calendar_toasted') && status === 'success') {
+        toast.success('Google Calendar connected');
+        sessionStorage.setItem('oauth_google_calendar_toasted', '1');
+      }
+      setActive('google-calendar');
+      // Remove oauth/status from the URL while preserving other params
+      const next = new URLSearchParams(searchParams);
+      next.delete('oauth');
+      next.delete('status');
+      setSearchParams(next, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const sections = {
     availability: <AvailabilitySection />,
     appointments: <AppointmentsSection />,
     clients: <ClientsSection />,
     profile: <ProviderProfile />,
+    'google-calendar': <GoogleCalendarIntegration />,
     ...(isSuperAdmin ? { providers: <ProviderManagement />, testimonials: <TestimonialsManagement /> } : {}),
   };
 
@@ -35,6 +67,7 @@ function OwnerPortalContent({ role }) {
     appointments: 'Manage Appointments',
     clients: 'Client Info',
     profile: 'My Profile',
+    'google-calendar': 'Google Calendar',
     providers: 'Manage Providers',
     testimonials: 'Manage Testimonials',
   };

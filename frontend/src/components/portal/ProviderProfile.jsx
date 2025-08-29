@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getProvider, updateProvider, setProviderPassword } from '../../api/providers';
+import GoogleCalendarIntegration from './GoogleCalendarIntegration';
 import toast from 'react-hot-toast';
 
 export default function ProviderProfile() {

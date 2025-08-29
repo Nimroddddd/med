@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ConfirmModal from '../common/ConfirmModal';
 import {
   getProviders,
   createProvider,
@@ -22,6 +23,8 @@ export default function ProviderManagement() {
   const [passwordSuccess, setPasswordSuccess] = useState('');
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const fetchProviders = async () => {
     setLoading(true);
@@ -52,13 +55,23 @@ export default function ProviderManagement() {
     setShowForm(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this provider?')) return;
+  const handleDelete = (id) => {
+    // Open themed confirmation modal instead of window.confirm
+    setDeleteTargetId(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    const id = deleteTargetId;
+    if (!id) return;
     setDeletingId(id);
     setError(null);
     try {
       await deleteProvider(id);
       setProviders(list => list.filter(p => p.id !== id));
+      toast.success('Provider deleted');
+      setShowDeleteModal(false);
+      setDeleteTargetId(null);
     } catch (err) {
       setError('Failed to delete provider.');
     } finally {
@@ -218,6 +231,18 @@ export default function ProviderManagement() {
           No providers found.
         </div>
       )}
+
+      {/* Delete confirmation */}
+      <ConfirmModal
+        open={showDeleteModal}
+        title="Delete this provider?"
+        description="This action cannot be undone. The provider will be permanently removed."
+        confirmText="Delete"
+        tone="danger"
+        loading={deletingId === deleteTargetId}
+        onConfirm={confirmDelete}
+        onClose={() => (deletingId === deleteTargetId ? null : setShowDeleteModal(false))}
+      />
 
       {/* Add/Edit Form */}
       {showForm && (

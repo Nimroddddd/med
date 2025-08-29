@@ -1,22 +1,23 @@
 import models from "../models/index.js";
 import GoogleCalendarService from "../services/googleCalendar.service.js";
 
-const { Provider } = models;
+const { Provider, User } = models;
 const googleCalendarService = new GoogleCalendarService();
 
 // Start OAuth flow - generate authorization URL
+// Note: providerId parameter is actually user_id from frontend
 export const startOAuth = async (req, res) => {
   try {
-    const { providerId } = req.params;
+    const { providerId } = req.params; // This is actually user_id
     
-    // Verify provider exists
-    const provider = await Provider.findByPk(providerId);
+    // Find provider by user_id (since frontend sends user ID)
+    const provider = await Provider.findOne({ where: { user_id: providerId } });
     if (!provider) {
       return res.status(404).json({ message: "Provider not found" });
     }
 
-    // Generate OAuth URL
-    const authUrl = googleCalendarService.generateAuthUrl(providerId);
+    // Generate OAuth URL using the actual provider.id
+    const authUrl = googleCalendarService.generateAuthUrl(provider.id);
     
     res.json({ 
       authUrl,
@@ -37,7 +38,7 @@ export const handleOAuthCallback = async (req, res) => {
       return res.status(400).json({ message: "Missing authorization code or state" });
     }
 
-    const providerId = state;
+    const providerId = state; // This is the actual provider.id from OAuth state
     
     // Verify provider exists
     const provider = await Provider.findByPk(providerId);
@@ -56,14 +57,13 @@ export const handleOAuthCallback = async (req, res) => {
       google_calendar_connected: true
     });
 
-    res.json({ 
-      message: "Google Calendar connected successfully!",
-      provider: {
-        id: provider.id,
-        name: provider.name,
-        google_calendar_connected: provider.google_calendar_connected
-      }
-    });
+    // Redirect back to the portal after successful connection
+    // Read base portal URL from env var with a safe default
+    const basePortalUrl = process.env.PORTAL_REDIRECT_URL || 'https://healthwise.com/owner-portal';
+    // Append success params
+    const separator = basePortalUrl.includes('?') ? '&' : '?';
+    const redirectUrl = `${basePortalUrl}${separator}oauth=google_calendar&status=success`;
+    return res.redirect(302, redirectUrl);
   } catch (error) {
     console.error('Error handling OAuth callback:', error);
     res.status(500).json({ message: "Failed to complete OAuth flow" });
@@ -71,11 +71,13 @@ export const handleOAuthCallback = async (req, res) => {
 };
 
 // Disconnect Google Calendar
+// Note: providerId parameter is actually user_id from frontend
 export const disconnectCalendar = async (req, res) => {
   try {
-    const { providerId } = req.params;
+    const { providerId } = req.params; // This is actually user_id
     
-    const provider = await Provider.findByPk(providerId);
+    // Find provider by user_id (since frontend sends user ID)
+    const provider = await Provider.findOne({ where: { user_id: providerId } });
     if (!provider) {
       return res.status(404).json({ message: "Provider not found" });
     }
@@ -103,11 +105,13 @@ export const disconnectCalendar = async (req, res) => {
 };
 
 // Get calendar connection status
+// Note: providerId parameter is actually user_id from frontend
 export const getCalendarStatus = async (req, res) => {
   try {
-    const { providerId } = req.params;
+    const { providerId } = req.params; // This is actually user_id
     
-    const provider = await Provider.findByPk(providerId);
+    // Find provider by user_id (since frontend sends user ID)
+    const provider = await Provider.findOne({ where: { user_id: providerId } });
     if (!provider) {
       return res.status(404).json({ message: "Provider not found" });
     }
@@ -127,11 +131,13 @@ export const getCalendarStatus = async (req, res) => {
 };
 
 // Test calendar connection
+// Note: providerId parameter is actually user_id from frontend
 export const testCalendarConnection = async (req, res) => {
   try {
-    const { providerId } = req.params;
+    const { providerId } = req.params; // This is actually user_id
     
-    const provider = await Provider.findByPk(providerId);
+    // Find provider by user_id (since frontend sends user ID)
+    const provider = await Provider.findOne({ where: { user_id: providerId } });
     if (!provider) {
       return res.status(404).json({ message: "Provider not found" });
     }
@@ -164,10 +170,10 @@ export const testCalendarConnection = async (req, res) => {
       message: "Test connection"
     };
 
-    const eventResult = await googleCalendarService.createEvent(providerId, testAppointment, accessToken);
+    const eventResult = await googleCalendarService.createEvent(provider.id, testAppointment, accessToken);
     
     // Delete the test event
-    await googleCalendarService.deleteEvent(providerId, eventResult.eventId, accessToken);
+    await googleCalendarService.deleteEvent(provider.id, eventResult.eventId, accessToken);
 
     res.json({ 
       message: "Calendar connection test successful",

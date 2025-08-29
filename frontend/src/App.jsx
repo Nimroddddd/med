@@ -26,6 +26,7 @@ import Blog from './components/sections/resources/Blog'
 import PrivacyPolicy from './components/sections/resources/PrivacyPolicy'
 import TermsOfService from './components/sections/resources/TermsOfService'
 import HIPAA from './components/sections/resources/HIPAA'
+import GoogleOAuthCallback from './components/portal/GoogleOAuthCallback'
 import { Toaster } from 'react-hot-toast'
 
 function AppContent() {
@@ -44,6 +45,7 @@ function AppContent() {
               <Route path="/contact" element={<ContactSection />} />
             <Route path="/book" element={<BookingSection />} />
             <Route path="/owner-portal" element={<OwnerPortalApp />} />
+            <Route path="/google-oauth-callback" element={<GoogleOAuthCallback />} />
             <Route path="/providers" element={<ProvidersSection />} />
             <Route path="/providers/:id" element={<ProviderDetail />} />
             <Route path="/therapy-methods" element={<TherapyMethods />} />

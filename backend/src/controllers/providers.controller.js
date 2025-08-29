@@ -20,7 +20,6 @@ const getProvider = async (req, res) => {
     if (!provider) {
       return res.status(404).json({ message: "Provider not found" })
     }
-    console.log(provider)
     return res.status(200).json(provider)
   } catch (error) {
     console.log(formatDate(Date.now()), error)
@@ -108,7 +107,6 @@ const setProviderPassword = async (req, res) => {
   try {
     const { id } = req.params;
     const { user } = await Provider.findByPk(id, { include: { model: User, as: "user" } })
-    console.log(user)
     await user.update(req.body)
     return res.sendStatus(201)
   } catch (error) {
