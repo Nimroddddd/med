@@ -8,7 +8,6 @@ const getAvailability = async (req, res) => {
     const availability = await Availability.findAll({ where: { provider_id: providerId } });
     return res.status(200).json(availability);
   } catch (error) {
-    console.log(error);
     return res.sendStatus(500);
   }
 };
@@ -26,7 +25,6 @@ const setAvailability = async (req, res) => {
     }
     return res.sendStatus(201);
   } catch (error) {
-    console.log(error);
     return res.sendStatus(500);
   }
 };
@@ -63,7 +61,6 @@ const getAvailableSlots = async (req, res) => {
     
     return res.status(200).json(availableSlots);
   } catch (error) {
-    console.log(error);
     return res.sendStatus(500);
   }
 };

@@ -1,5 +1,4 @@
 import models from "../models/index.js"
-import formatDate from "../middlewares/FormatDate.js"
 import { sendContactMail, sendAppointmentNotificationMail, sendAppointmentConfirmationMail, sendAppointmentCancellationMail, sendAppointmentRejectionMail } from "../utils/sendMail.js"
 import GoogleCalendarService from "../services/googleCalendar.service.js"
 
@@ -79,7 +78,6 @@ const getAllAppointments = async (req, res) => {
     const appointments = await Appointment.findAll();
     return res.status(200).json(appointments)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -90,7 +88,6 @@ const getAppointment = async (req, res) => {
     const appointment = await Appointment.findByPk(id)
     return res.status(200).json(appointment)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -128,13 +125,11 @@ const createAppointment = async (req, res) => {
         date,
         time
       });
-      console.log(name, email, phone, date, time)
     } catch (mailError) {
-      console.log(formatDate(Date.now()), 'Failed to send appointment notification email:', mailError)
+      // Silent fail for email notification
     }
     return res.status(201).json({ message: "Appointment has been created" })
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -142,7 +137,6 @@ const createAppointment = async (req, res) => {
 const updateAppointment = async (req, res) => {
   try {
     const { status } = req.body
-    console.log(status)
     const appointment = await Appointment.findByPk(req.params.id)
     const previousStatus = appointment.status
     appointment.status = status
@@ -172,7 +166,7 @@ const updateAppointment = async (req, res) => {
           time: appointment.time
         });
       } catch (mailError) {
-        console.log(formatDate(Date.now()), 'Failed to send confirmation email:', mailError)
+        // Silent fail for email
       }
     }
     // Send cancellation email if status is canceled
@@ -187,7 +181,7 @@ const updateAppointment = async (req, res) => {
           additionalNotes: req.body.additionalNotes
         });
       } catch (mailError) {
-        console.log(formatDate(Date.now()), 'Failed to send cancellation email:', mailError)
+        // Silent fail for email
       }
     }
     // Send rejection email if status is rejected
@@ -202,12 +196,11 @@ const updateAppointment = async (req, res) => {
           additionalNotes: req.body.additionalNotes
         });
       } catch (mailError) {
-        console.log(formatDate(Date.now()), 'Failed to send rejection email:', mailError)
+        // Silent fail for email
       }
     }
     return res.status(201).json({ message: "Appointment status has been updated" })
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -222,7 +215,6 @@ const deleteAppointment = async (req, res) => {
     await appointment.destroy()
     return res.sendStatus(204)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }

@@ -45,28 +45,15 @@ const BookingSection = () => {
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + (4 * 7)); // 4 weeks from now
         const endDateStr = endDate.toISOString().split('T')[0];
-        
-        console.log('Frontend requesting dates:', { startDateStr, endDateStr });
-        console.log('Frontend startDate object:', startDate);
-        console.log('Frontend endDate object:', endDate);
-        console.log('Frontend startDate.toISOString():', startDate.toISOString());
-        console.log('Frontend endDate.toISOString():', endDate.toISOString());
-        
+
         const data = await getAvailableSlots(startDateStr, endDateStr);
-        console.log('Backend returned data:', data);
-        console.log('Backend available dates:', Object.keys(data));
-        
-        // Log each date conversion
+
         const dates = Object.keys(data).map(dateStr => {
           const dateObj = new Date(dateStr + 'T00:00:00Z');
-          console.log(`Date string "${dateStr}" + 'T00:00:00Z' -> Date object:`, dateObj);
-          console.log(`Date string "${dateStr}" + 'T00:00:00Z' -> toLocaleDateString():`, dateObj.toLocaleDateString());
-          console.log(`Date string "${dateStr}" + 'T00:00:00Z' -> getDay():`, dateObj.getDay(), '(0=Sunday, 4=Thursday)');
           return dateObj;
         });
-        
+
         setAvailableSlots(data);
-        console.log(data)
         // Convert backend dates to Date objects for the dropdown
         dates.sort((a, b) => a - b); // Sort chronologically
         setAvailableDates(dates);

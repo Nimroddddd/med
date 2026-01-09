@@ -9,7 +9,6 @@ const getAvailability = async (req, res) => {
     const availability = await Availability.findAll({ where: { provider_id: providerId } });
     return res.status(200).json(availability);
   } catch (error) {
-    console.log(error.message);
     return res.sendStatus(500);
   }
 };
@@ -27,7 +26,6 @@ const setAvailability = async (req, res) => {
     }
     return res.sendStatus(201);
   } catch (error) {
-    console.log(error);
     return res.sendStatus(500);
   }
 };
@@ -55,21 +53,14 @@ const getAvailableSlots = async (req, res) => {
       attributes: ['date', 'time']
     });
 
-    console.log('Found appointments:', appointments.map(a => ({ date: a.date, time: a.time })));
-
     // 3. Convert day availability to date availability
     const dateAvailability = convertDayToDateAvailability(dayAvailability, startDate, endDate);
-    
-    console.log('Date availability before removing booked slots:', dateAvailability);
-    
+
     // 4. Remove booked slots
     const availableSlots = removeBookedSlots(dateAvailability, appointments);
     
-    console.log('Final available slots:', availableSlots);
-    
     return res.status(200).json(availableSlots);
   } catch (error) {
-    console.log(error);
     return res.sendStatus(500);
   }
 };
@@ -125,24 +116,13 @@ const removeBookedSlots = (dateAvailability, appointments) => {
     }
     bookedSlotsByDate[date].push(time);
   });
-  
-  console.log('Booked slots by date:', bookedSlotsByDate);
-  
+
   // Remove booked slots from available slots
   Object.keys(availableSlots).forEach(date => {
     if (bookedSlotsByDate[date]) {
-      const originalSlots = [...availableSlots[date]];
       availableSlots[date] = availableSlots[date].filter(
         slot => !bookedSlotsByDate[date].includes(slot)
       );
-      
-      if (originalSlots.length !== availableSlots[date].length) {
-        console.log(`Removed booked slots for ${date}:`, {
-          original: originalSlots,
-          booked: bookedSlotsByDate[date],
-          remaining: availableSlots[date]
-        });
-      }
     }
   });
   
@@ -150,7 +130,6 @@ const removeBookedSlots = (dateAvailability, appointments) => {
   Object.keys(availableSlots).forEach(date => {
     if (availableSlots[date].length === 0) {
       delete availableSlots[date];
-      console.log(`Removed date ${date} - no available slots`);
     }
   });
   
