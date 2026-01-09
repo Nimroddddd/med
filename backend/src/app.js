@@ -17,6 +17,7 @@ app.use(cors({
   origin: ["http://localhost:5173", "https://healthwisepw.com", "https://www.healthwisepw.com"],
   credentials: true
 }))
+app.options("*", cors());
 app.use(urlencoded({ extended: true }))
 app.use(express.json())
 

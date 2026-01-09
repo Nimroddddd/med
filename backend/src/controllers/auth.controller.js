@@ -1,6 +1,5 @@
 import models from "../models/index.js"
 import bcrypt from "bcrypt"
-import formatDate from "../middlewares/FormatDate.js"
 
 const { User, Provider } = models
 
@@ -28,7 +27,6 @@ const login = async (req, res) => {
     }
     return res.status(200).json({ messsage: "Login Successful", user})
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }

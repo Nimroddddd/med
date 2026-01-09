@@ -18,7 +18,6 @@ export default function ProviderDetail() {
       setError(null);
       try {
         const foundProvider = await getProviderByLink(providerLink);
-        console.log(foundProvider)
         setProvider(foundProvider || null);
         if (!foundProvider) setError('Provider not found');
       } catch (err) {

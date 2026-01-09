@@ -1,5 +1,4 @@
 import models from "../models/index.js";
-import formatDate from "../middlewares/FormatDate.js";
 
 const { Testimonial } = models
 
@@ -12,7 +11,6 @@ const getAllTestimonials = async (req, res) => {
     );
     return res.status(200).json(testimonials)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -24,7 +22,6 @@ const createTestimonial = async (req, res) => {
     const testimonial = await Testimonial.create(req.body)
     return res.status(201).json(testimonial)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -36,7 +33,6 @@ const updateTestimonials = async (req, res) => {
     await Testimonial.update({ show: true },{ where: { id: shownIds } })
     return res.sendStatus(201)
   } catch(error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }

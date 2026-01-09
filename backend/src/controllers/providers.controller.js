@@ -1,5 +1,4 @@
 import models from "../models/index.js"
-import formatDate from "../middlewares/FormatDate.js"
 
 const { Provider, User, Availability } = models
 
@@ -8,7 +7,6 @@ const getAllProviders = async (req, res) => {
     const providers = await Provider.findAll({include: { model: User, as: "user" }})
     return res.status(200).json(providers)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -22,7 +20,6 @@ const getProvider = async (req, res) => {
     }
     return res.status(200).json(provider)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -36,7 +33,6 @@ const getProviderByLink = async (req, res) => {
     }
     return res.status(200).json(provider)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -49,7 +45,6 @@ const addProvider = async (req, res) => {
     const provider = await user.createProvider({ email, name, link_id })
     return res.status(201).json(provider)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -98,7 +93,6 @@ const updateProvider = async (req, res) => {
     const updatedProvider = await provider.update(updateData)
     return res.status(200).json(updatedProvider)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -110,7 +104,6 @@ const setProviderPassword = async (req, res) => {
     await user.update(req.body)
     return res.sendStatus(201)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }
@@ -125,7 +118,6 @@ const deleteProvider = async (req, res) => {
     await provider.user.destroy()
     return res.sendStatus(204)
   } catch (error) {
-    console.log(formatDate(Date.now()), error)
     return res.sendStatus(500)
   }
 }

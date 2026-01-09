@@ -1,6 +1,5 @@
 import models from "../models/index.js";
 import { Op } from "sequelize";
-import formatDate from "../middlewares/FormatDate.js";
 
 const { Availability, Appointment } = models;
 
@@ -10,7 +9,6 @@ const getAvailability = async (req, res) => {
     const availability = await Availability.findAll({ where: { provider_id: providerId } });
     return res.status(200).json(availability);
   } catch (error) {
-    console.log(formatDate(Date.now()), error);
     return res.sendStatus(500);
   }
 };
@@ -28,7 +26,6 @@ const setAvailability = async (req, res) => {
     }
     return res.sendStatus(201);
   } catch (error) {
-    console.log(formatDate(Date.now()), error.message);
     return res.sendStatus(500);
   }
 };
@@ -37,16 +34,15 @@ const setAvailability = async (req, res) => {
 const getAvailableSlots = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    console.log(startDate, endDate, "here")
     if (!startDate || !endDate) {
-      return res.status(400).json({ 
-        message: 'startDate and endDate are required' 
+      return res.status(400).json({
+        message: 'startDate and endDate are required'
       });
     }
 
     // 1. Get all provider availability (day-based)
     const dayAvailability = await Availability.findAll();
-    
+
     // 2. Get existing appointments in the date range
     const appointments = await Appointment.findAll({
       where: {
@@ -57,21 +53,14 @@ const getAvailableSlots = async (req, res) => {
       attributes: ['date', 'time']
     });
 
-    console.log('Backend received startDate:', startDate);
-    console.log('Backend received endDate:', endDate);
-    console.log('Backend dayAvailability:', dayAvailability);
-    
     // 3. Convert day availability to date availability
     const dateAvailability = convertDayToDateAvailability(dayAvailability, startDate, endDate);
-        
+
     // 4. Remove booked slots
     const availableSlots = removeBookedSlots(dateAvailability, appointments);
-    
-    console.log('Final available slots:', availableSlots);
-    
+
     return res.status(200).json(availableSlots);
   } catch (error) {
-    console.log(formatDate(Date.now()), error);
     return res.sendStatus(500);
   }
 };
@@ -94,17 +83,11 @@ const convertDayToDateAvailability = (dayAvailability, startDate, endDate) => {
   // Treat incoming dates as UTC dates (add Z to ensure UTC interpretation)
   const start = new Date(startDate + 'T00:00:00Z');
   const end = new Date(endDate + 'T00:00:00Z');
-  
-  console.log('Backend start date object:', start);
-  console.log('Backend end date object:', end);
-  console.log('Backend start.toISOString():', start.toISOString());
-  console.log('Backend end.toISOString():', end.toISOString());
-  
+
   // Iterate through each date in the range
   for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
     const dayOfWeek = date.getDay();
     const dateStr = date.toISOString().split('T')[0];
-    console.log(`Processing date: ${dateStr}, dayOfWeek: ${dayOfWeek} (0=Sunday, 4=Thursday)`);
     
     // Find all availabilities for this day of the week
     const availableDays = dayAvailability.filter(availability => 
@@ -151,18 +134,9 @@ const removeBookedSlots = (dateAvailability, appointments) => {
   // Remove booked slots from available slots
   Object.keys(availableSlots).forEach(date => {
     if (bookedSlotsByDate[date]) {
-      const originalSlots = [...availableSlots[date]];
       availableSlots[date] = availableSlots[date].filter(
         slot => !bookedSlotsByDate[date].includes(slot)
       );
-      
-      if (originalSlots.length !== availableSlots[date].length) {
-        console.log(`Removed booked slots for ${date}:`, {
-          original: originalSlots,
-          booked: bookedSlotsByDate[date],
-          remaining: availableSlots[date]
-        });
-      }
     }
   });
   
