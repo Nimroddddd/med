@@ -154,7 +154,9 @@ export default function AppointmentsSection() {
                   <div className="font-semibold">{appt.client || appt.name}</div>
                   <div className="text-xs text-gray-500">{appt.email}<br />{appt.phone}</div>
                 </td>
-                <td className="px-4 py-2">{new Date(appt.date).toLocaleDateString()}</td>
+                <td className="px-4 py-2">{new Date(appt.date).toLocaleDateString('en-US', {
+                  timeZone: 'UTC'
+                })}</td>
                 <td className="px-4 py-2">{formatTime(appt.time)}</td>
                 <td className="px-4 py-2">
                   {getStatusBadge(appt.status)}
@@ -228,7 +230,9 @@ export default function AppointmentsSection() {
             
             <div className="flex justify-between items-center mb-4">
               <div className="text-sm text-gray-600">
-                <span className="font-medium">Date:</span> {new Date(appt.date).toLocaleDateString()}
+                <span className="font-medium">Date:</span> {new Date(appt.date).toLocaleDateString('en-US', {
+                  timeZone: 'UTC'
+                })}
               </div>
               <div className="text-sm text-gray-600">
                 <span className="font-medium">Time:</span> {formatTime(appt.time)}
