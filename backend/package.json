@@ -4,9 +4,9 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "build": "echo \"build step\"",
+    "build": "node api.js && echo \"build step\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js",
+    "dev": "node api.js && nodemon src/server.js",
     "db": "node scripts/initialize-database.js",
     "superadmin": "node scripts/create-super-admin.js",
     "admin": "node scripts/create-admin.js",
